@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <math_functions.h>
+#include <SFML/System/Angle.hpp>
 
 struct PointOverlapResultQueryContext
 {
@@ -22,20 +23,16 @@ private:
 
 	std::vector<b2BodyId> m_BodyIds;
 
-	void removeDestroyedBodyFromList(b2BodyId body);
 	void cleanList();
 
-	bool b2OverlapResultFcn(b2ShapeId shapeId, void* context)
-	{
-
-	}
 public:
 	PhysicsEngine();
 
-	void spawnBodyAtLocation(sf::Vector2f location, sf::Vector2f size, sf::Color fillColor);
+	void spawnBodyAtLocation(sf::Vector2f location, sf::Vector2f size, sf::Angle rotation, sf::Color fillColor);
 	void destroyBodyAtLocation(sf::Vector2f location);
+	void destroyBody(b2BodyId body);
 
-	void spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, sf::Color fillColor);
+	void spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rotation, sf::Color fillColor);
 	void destroyBodyAtLocation(b2Vec2 location);
 
 	void update(float delta);
