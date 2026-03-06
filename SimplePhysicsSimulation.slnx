@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="SimplePhysicsSimulation.vcxproj" Id="4517705c-2c3c-479b-b50d-ea9cff7c36cd" />
+</Solution>
