@@ -6,12 +6,6 @@
 #include <math_functions.h>
 #include <SFML/System/Angle.hpp>
 
-struct PointOverlapResultQueryContext
-{
-	b2Vec2 m_Point;
-	b2Vec2 m_Point;
-};
-
 class PhysicsEngine
 {
 private:	
