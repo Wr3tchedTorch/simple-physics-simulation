@@ -66,23 +66,32 @@ void PhysicsEngine::destroyBodyAtLocation(sf::Vector2f location)
 	b2Vec2 locationInMeters =
 	{
 		converter::pixelsToMeters(location.x),
-		converter::pixelsToMeters(location.y)
+		converter::pixelsToMeters(location.y - 20)
 	};
 
 	destroyBodyAtLocation(locationInMeters);
 }
 
-void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rotation, sf::Color fillColor)
+void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rotation, sf::Color fillColor, b2BodyType type)
 {
 	b2BodyDef bodyDef = b2DefaultBodyDef();
 	bodyDef.position  = location;
 	bodyDef.rotation  = rotation;
-	bodyDef.type	  = b2_dynamicBody;
+	bodyDef.type	  = type;
+	if (type == b2_dynamicBody)
+	{		
+		bodyDef.angularVelocity = converter::degToRad(60);	
+	}
 
-	b2BodyId bodyId = b2CreateBody(m_WorldId, &bodyDef);
+	b2BodyId bodyId = b2CreateBody(m_WorldId, &bodyDef);	
 
 	b2Polygon  polygon  = b2MakeBox(size.x / 2.0f, size.y / 2.0f);
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
+	if (type == b2_dynamicBody)
+	{
+		shapeDef.density = 1.0f;
+		shapeDef.material.friction = .3f;
+	}
 	b2CreatePolygonShape(bodyId, &shapeDef, &polygon);
 
 	m_BodyIds.push_back(bodyId);
@@ -93,8 +102,8 @@ void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rota
 }
 
 void PhysicsEngine::destroyBodyAtLocation(b2Vec2 location)
-{
-	b2ShapeProxy proxy = b2MakeProxy(new b2Vec2(location), 1, 0.001f);
+{	
+	b2ShapeProxy proxy = b2MakeProxy(new b2Vec2(location), 1, .2f);
 
 	b2ShapeId foundShapeId = b2_nullShapeId;
 
@@ -112,13 +121,16 @@ void PhysicsEngine::destroyBodyAtLocation(b2Vec2 location)
 
 	if (b2Shape_IsValid(foundShapeId))
 	{
-		#ifdef _DEBUG
-		std::cout << std::format("\nDestroyed shape at position: (x: {}, y: {})", location.x, location.y);
-		#endif
-
 		b2BodyId bodyId = b2Shape_GetBody(foundShapeId);
 
-		destroyBody(bodyId);
+		if (b2Body_GetType(bodyId) == b2_dynamicBody)
+		{
+			#ifdef _DEBUG
+			std::cout << std::format("\nDestroyed shape at position: (x: {}, y: {})", location.x, location.y);
+			#endif
+
+			destroyBody(bodyId);
+		}
 	}
 }
 

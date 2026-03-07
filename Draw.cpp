@@ -6,6 +6,7 @@
 #include <math_functions.h>
 #include <SFML/System/Angle.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <collision.h>
 
 void GameEngine::draw()
 {
@@ -21,22 +22,29 @@ void GameEngine::draw()
 		sf::Vector2f position({
 				converter::metersToPixels(transformInMeters.p.x),
 				converter::metersToPixels(transformInMeters.p.y)
-		});
+			});
 
 		float radians = b2Rot_GetAngle(transformInMeters.q);
 		sf::Angle rotation(sf::radians(radians));
 
 		b2ShapeId shape;
-		
+
 		b2Body_GetShapes(body, &shape, 1);
 
 		b2Polygon polygon = b2Shape_GetPolygon(shape);
-		float width  = polygon.vertices[1].x * 2.0f;
+		float width = polygon.vertices[1].x * 2.0f;
 		float height = polygon.vertices[2].y * 2.0f;
 
-		sprite.setSize({ width, height });
+		float widthInPixel = converter::metersToPixels(width);
+		float heightInPixel = converter::metersToPixels(height);
+
+		sprite.setSize({
+			widthInPixel,
+			heightInPixel
+			});
 		sprite.setPosition(position);
 		sprite.setRotation(rotation);
+		sprite.setOrigin({widthInPixel / 2.0f, heightInPixel / 2.0f});
 
 		m_Window.draw(sprite);
 	}

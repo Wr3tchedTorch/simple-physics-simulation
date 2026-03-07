@@ -7,7 +7,7 @@ class GameEngine
 {
 private:
 	sf::RenderWindow m_Window;
-	sf::Vector2u	 m_Resolution;	
+	sf::Vector2f	 m_Resolution;	
 
 	PhysicsEngine m_PhysicsEngine;
 
