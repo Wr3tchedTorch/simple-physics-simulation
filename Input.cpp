@@ -20,7 +20,7 @@ void GameEngine::input()
 		}
 		if (auto mouse = event->getIf<sf::Event::MouseButtonPressed>())
 		{
-			sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition());
+			sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window));
 			if (mouse->button == sf::Mouse::Button::Left)
 			{				
 				m_SlingShot.leftMouseClick();

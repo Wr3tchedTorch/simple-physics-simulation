@@ -55,7 +55,7 @@ void PhysicsEngine::destroyBodyAtLocation(sf::Vector2f location)
 	b2Vec2 locationInMeters =
 	{
 		converter::pixelsToMeters(location.x),
-		converter::pixelsToMeters(location.y - 20)
+		converter::pixelsToMeters(location.y)
 	};
 
 	destroyBodyAtLocation(locationInMeters);

@@ -10,6 +10,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <id.h>
+#include <iostream>
+#include <format>
 
 void Ball::createBody(float radius, b2Vec2 startingPosition)
 {
@@ -43,8 +45,8 @@ void Ball::createSprite(float radius, sf::Color color)
 
 Ball::Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId)
 {
-	m_WorldId = worldId;
-	m_Damage = damage;
+	m_WorldId  = worldId;
+	m_Damage   = damage;
 	m_MaxSpeed = maxSpeed;
 
 	createSprite(radius, color);
@@ -52,10 +54,14 @@ Ball::Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldI
 
 void Ball::launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse)
 {
-	createBody(converter::pixelsToMeters(m_Sprite.getRadius()), startingPos);
+	if (!b2Body_IsValid(m_BodyId))
+	{
+		createBody(converter::pixelsToMeters(m_Sprite.getRadius()), startingPos);
+	}
 
 	b2Vec2 velocity = normalizedDirection * impulse * m_MaxSpeed;
 
+	b2Body_SetAwake(m_BodyId, true);
 	b2Body_SetLinearVelocity(m_BodyId, velocity);
 }
 

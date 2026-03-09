@@ -40,6 +40,13 @@ public:
 
 	void setWorldId(b2WorldId worldId);
 	void update();
+	void reset()
+	{
+		if (b2Body_IsValid(m_BodyId))
+		{
+			b2DestroyBody(m_BodyId);
+		}
+	}
 	
 	void sleep()
 	{

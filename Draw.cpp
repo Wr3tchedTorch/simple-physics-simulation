@@ -54,5 +54,10 @@ void GameEngine::draw()
 	m_Window.draw(m_Ball);
 	m_Window.draw(m_SlingShot);
 
+	sf::Vector2f mousePos(sf::Mouse::getPosition(m_Window));
+	sf::CircleShape indicator(15, 32);
+	indicator.setPosition(mousePos);
+	m_Window.draw(indicator);
+
 	m_Window.display();
 }
