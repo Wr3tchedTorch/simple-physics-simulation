@@ -141,6 +141,7 @@
     <ClCompile Include="Update.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BodyModel.h" />
     <ClInclude Include="Converter.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="PhysicsEngine.h" />

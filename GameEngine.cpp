@@ -7,6 +7,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <types.h>
 #include "Converter.h"
+#include "BodyModel.h"
+#include <memory>
 
 GameEngine::GameEngine()
 {
@@ -19,6 +21,9 @@ GameEngine::GameEngine()
 	sf::Angle angle = sf::degrees(45);
 	b2Rot rot = b2MakeRot(angle.asRadians());
 
+	BodyModel model;
+	model.m_Color = sf::Color::White;
+
 	m_PhysicsEngine.spawnBodyAtLocation(
 		{
 		converter::pixelsToMeters(m_Resolution.x) / 2.0f,
@@ -28,7 +33,7 @@ GameEngine::GameEngine()
 			converter::pixelsToMeters(m_Resolution.x),
 			5
 		},
-		b2Rot_identity, sf::Color::Red, b2_staticBody);
+		b2Rot_identity, model, b2_staticBody);
 }
 
 void GameEngine::run()

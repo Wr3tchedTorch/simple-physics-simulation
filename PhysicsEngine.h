@@ -2,10 +2,13 @@
 #include <id.h>
 #include <vector>
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics/Color.hpp>
 #include <math_functions.h>
 #include <SFML/System/Angle.hpp>
 #include <types.h>
+#include "BodyModel.h"
+#include <memory>
+#include <unordered_map>
+#include <functional>
 
 class PhysicsEngine
 {
@@ -15,24 +18,31 @@ private:
 	const int   SUB_STEP_COUNT = 4;
 
 	b2WorldId m_WorldId;
-
-	std::vector<b2BodyId> m_BodyIds;
+	
+	std::unordered_map<b2BodyId, std::unique_ptr<BodyModel>, b2BodyIdHash, b2BodyIdEqual> m_Bodies;
 
 	void cleanList();
 
 public:
 	PhysicsEngine();
 
-	void spawnBodyAtLocation(sf::Vector2f location, sf::Vector2f size, sf::Angle rotation, sf::Color fillColor);
+	void spawnBodyAtLocation(sf::Vector2f location, sf::Vector2f size, sf::Angle rotation, BodyModel model, b2BodyType type = b2_dynamicBody);
 	void destroyBodyAtLocation(sf::Vector2f location);
 	void destroyBody(b2BodyId body);
 
-	void spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rotation, sf::Color fillColor, b2BodyType type = b2_dynamicBody);
+	void spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rotation, BodyModel model, b2BodyType type = b2_dynamicBody);
 	void destroyBodyAtLocation(b2Vec2 location);
 
 	void update(float delta);
 
 	b2WorldId getWorld();
-	std::vector<b2BodyId> getBodies();
+
+	void forEachBody(std::function<void(b2BodyId, const BodyModel&)> fn) const 
+	{
+		for (const auto& [id, body] : m_Bodies)
+		{
+			fn(id, *body);
+		}
+	}
 };
 
