@@ -16,7 +16,7 @@ private:
 	b2WorldId m_WorldId;
 
 	float m_MaxSpeed;
-	float m_Damage;
+	float m_Damage;	
 
 	sf::CircleShape m_Sprite;
 

@@ -24,26 +24,11 @@ void GameEngine::input()
 			if (mouse->button == sf::Mouse::Button::Left)
 			{				
 				m_SlingShot.leftMouseClick();
-
-				sf::Angle angle = sf::degrees(45);
-				b2Rot rot = b2MakeRot(angle.asRadians());
-
-				BodyModel model;
-
-				static std::mt19937 rng(std::random_device{}());
-				static std::uniform_int_distribution<int> dist(0, 255);
-
-				int red   = dist(rng);
-				int green = dist(rng);
-				int blue  = dist(rng);
-
-				model.m_Color = sf::Color(red, green, blue);
-				m_PhysicsEngine.spawnBodyAtLocation({ converter::pixelsToMeters(mousePosition.x), converter::pixelsToMeters(mousePosition.y) }, {1, 1}, rot, model);
 			}
 			if (mouse->button == sf::Mouse::Button::Right)
 			{
-				m_PhysicsEngine.destroyBodyAtLocation(mousePosition);
-			}			
+				m_PhysicsEngine->destroyBodyAtLocation(mousePosition);
+			}
 		}
 		if (auto mouse = event->getIf<sf::Event::MouseButtonReleased>())
 		{
@@ -52,5 +37,57 @@ void GameEngine::input()
 				m_SlingShot.leftMouseRelease();
 			}
 		}
+		if (auto keyPressed = event->getIf<sf::Event::KeyPressed>())
+		{
+			if (keyPressed->scancode == sf::Keyboard::Scancode::N)
+			{
+				m_BoxFactory.nextBoxType();
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
+			{
+				m_BoxFactory.increaseSizeX(-20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
+			{
+				m_BoxFactory.increaseSizeX(20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
+			{
+				m_BoxFactory.increaseSizeY(-20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
+			{
+				m_BoxFactory.increaseSizeY(20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::D)
+			{
+				m_BoxFactory.moveX(20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::A)
+			{
+				m_BoxFactory.moveX(-20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
+			{
+				m_BoxFactory.moveY(20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::W)
+			{
+				m_BoxFactory.moveY(-20);
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::R)
+			{
+				m_BoxFactory.rotate(sf::degrees(90).asRadians());
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
+			{
+				m_BoxFactory.createBox();
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+			{
+				m_Window.close();
+			}
+		}
+
 	}
 }

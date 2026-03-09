@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <type_traits>
 #include <string.h>
+#include <cstring>
 
 struct BodyModel
 {

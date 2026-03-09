@@ -9,13 +9,20 @@
 #include "Converter.h"
 #include "BodyModel.h"
 #include "Ball.h"
+#include <memory>
+#include "PhysicsEngine.h"
+
+bool GameEngine::IsPlaying = false;
+sf::Vector2f GameEngine::Resolution = {0, 0};
 
 GameEngine::GameEngine() :
 	m_SlingShot(7, 8),
-	m_Ball(100, 5, 1, sf::Color::Red, m_PhysicsEngine.getWorld())
+	m_Ball(100, 5, 1, sf::Color::Red, m_PhysicsEngine->getWorld()),
+	m_PhysicsEngine(std::make_shared<PhysicsEngine>()),
+	m_BoxFactory(m_PhysicsEngine)
 {
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
-	m_Resolution = sf::Vector2f(vm.size);
+	Resolution = sf::Vector2f(vm.size);
 	
 	m_Window.create(vm, "Physics Simulation by Eric");
 	m_Window.setFramerateLimit(60);
@@ -26,18 +33,18 @@ GameEngine::GameEngine() :
 	BodyModel model;
 	model.m_Color = sf::Color::White;
 
-	m_PhysicsEngine.spawnBodyAtLocation(
+	m_PhysicsEngine->spawnBodyAtLocation(
 		{
-		converter::pixelsToMeters(m_Resolution.x) / 2.0f,
-		converter::pixelsToMeters(m_Resolution.y) / 1.25f + 2.5f
+		converter::pixelsToMeters(Resolution.x) / 2.0f,
+		converter::pixelsToMeters(Resolution.y) / 1.25f + 2.5f
 		},
 		{
-			converter::pixelsToMeters(m_Resolution.x),
+			converter::pixelsToMeters(Resolution.x),
 			5
 		},
 		b2Rot_identity, model, b2_staticBody);	
 
-	m_Ball.setWorldId(m_PhysicsEngine.getWorld());
+	m_Ball.setWorldId(m_PhysicsEngine->getWorld());
 	m_SlingShot.setAmmo(m_Ball);
 }
 

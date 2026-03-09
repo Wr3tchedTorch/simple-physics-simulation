@@ -28,6 +28,7 @@ public:
 	void setAmmo(Ball& ball)
 	{
 		m_CurrentLoadedBall = &ball;
+		m_CurrentLoadedBall->setPosition({-200, -200});
 	}
 
 	void leftMouseClick();

@@ -77,11 +77,7 @@ void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rota
 	bodyDef.position  = location;
 	bodyDef.rotation  = rotation;
 	bodyDef.type	  = type;
-	bodyDef.userData  = modelPtr.get();
-	if (type == b2_dynamicBody)
-	{		
-		bodyDef.angularVelocity = converter::degToRad(60);	
-	}
+	bodyDef.userData  = modelPtr.get();	
 
 	b2BodyId bodyId = b2CreateBody(m_WorldId, &bodyDef);	
 	m_Bodies[bodyId] = std::move(modelPtr);

@@ -8,12 +8,13 @@
 #include <SFML/System/Vector2.hpp>
 #include <collision.h>
 #include "BodyModel.h"
+#include <SFML/Graphics/CircleShape.hpp>
 
 void GameEngine::draw()
 {
 	m_Window.clear();
 
-	m_PhysicsEngine.forEachBody([this](b2BodyId id, const BodyModel& body) -> void
+	m_PhysicsEngine->forEachBody([this](b2BodyId id, const BodyModel& body) -> void
 		{
 			sf::RectangleShape sprite;
 			sprite.setFillColor(body.m_Color);
@@ -51,13 +52,9 @@ void GameEngine::draw()
 			m_Window.draw(sprite);
 		});
 
-	m_Window.draw(m_Ball);
+	m_Window.draw(m_BoxFactory);
 	m_Window.draw(m_SlingShot);
-
-	sf::Vector2f mousePos(sf::Mouse::getPosition(m_Window));
-	sf::CircleShape indicator(15, 32);
-	indicator.setPosition(mousePos);
-	m_Window.draw(indicator);
+	m_Window.draw(m_Ball);
 
 	m_Window.display();
 }

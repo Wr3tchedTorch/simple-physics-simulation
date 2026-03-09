@@ -4,7 +4,7 @@
 
 void GameEngine::update(float delta)
 {
-	m_PhysicsEngine.update(delta);
+	m_PhysicsEngine->update(delta);
 
 	sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window));
 	m_SlingShot.update(mousePosition);

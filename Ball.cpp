@@ -41,6 +41,7 @@ void Ball::createSprite(float radius, sf::Color color)
 	m_Sprite.setRadius(converter::metersToPixels(radius));
 	m_Sprite.setFillColor(color);
 	m_Sprite.setOrigin({ converter::metersToPixels(radius), converter::metersToPixels(radius) });
+	m_Sprite.setPosition({-200, -200});
 }
 
 Ball::Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId)

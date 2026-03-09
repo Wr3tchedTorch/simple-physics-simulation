@@ -4,23 +4,29 @@
 #include "PhysicsEngine.h"
 #include "Ball.h"
 #include "SlingShot.h"
+#include <memory>
+#include "BoxFactory.h"
 
 class GameEngine
 {
 private:
 	sf::RenderWindow m_Window;
-	sf::Vector2f	 m_Resolution;	
 
-	PhysicsEngine m_PhysicsEngine;
+	std::shared_ptr<PhysicsEngine> m_PhysicsEngine;
 
 	Ball m_Ball;
 	SlingShot m_SlingShot;
+	BoxFactory m_BoxFactory;
+
 
 	void update(float delta);
 	void input();
 	void draw();
 
 public:
+	static bool IsPlaying;
+	static sf::Vector2f	Resolution;
+
 	GameEngine();
 
 	void run();
