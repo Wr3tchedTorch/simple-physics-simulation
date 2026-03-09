@@ -5,6 +5,9 @@
 #include <math_functions.h>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <box2d.h>
+#include <SFML/System/Vector2.hpp>
 
 class Ball : public sf::Drawable
 {
@@ -13,7 +16,6 @@ private:
 	b2WorldId m_WorldId;
 
 	float m_MaxSpeed;
-	float m_Impulse;
 	float m_Damage;
 
 	sf::CircleShape m_Sprite;
@@ -22,8 +24,33 @@ private:
 	void createSprite(float radius, sf::Color color);
 
 public:
-	Ball(float damage, float maxSpeed, float radius, b2Vec2 startingPosition, sf::Color color);
+	Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId);
 
-	void draw(sf::RenderTarget& target);
+	void launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse);
+
+	void setPosition(sf::Vector2f newPos)
+	{
+		m_Sprite.setPosition(newPos);
+	}
+
+	sf::CircleShape& getSprite()
+	{
+		return m_Sprite;
+	}
+
+	void setWorldId(b2WorldId worldId);
+	void update();
+	
+	void sleep()
+	{
+		b2Body_SetAwake(m_BodyId, false);
+	}
+
+	void awake()
+	{
+		b2Body_SetAwake(m_BodyId, true);
+	}
+
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 

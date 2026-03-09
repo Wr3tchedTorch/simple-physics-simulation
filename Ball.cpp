@@ -1,5 +1,4 @@
 #include "Ball.h"
-#include <SFML/Graphics/RenderStates.hpp>
 #include <types.h>
 #include <box2d.h>
 #include <collision.h>
@@ -9,6 +8,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <id.h>
 
 void Ball::createBody(float radius, b2Vec2 startingPosition)
 {
@@ -18,6 +19,7 @@ void Ball::createBody(float radius, b2Vec2 startingPosition)
 	bodyDef.isBullet = true;
 	bodyDef.userData = this;
 	bodyDef.fixedRotation = true;
+	bodyDef.isAwake = false;
 
 	m_BodyId = b2CreateBody(m_WorldId, &bodyDef);
 
@@ -29,28 +31,46 @@ void Ball::createBody(float radius, b2Vec2 startingPosition)
 	b2Circle circle{};
 	circle.radius = radius;
 
-	b2CreateCircleShape(m_BodyId, &shapeDef, &circle);
+	b2CreateCircleShape(m_BodyId, &shapeDef, &circle);	
 }
 
 void Ball::createSprite(float radius, sf::Color color)
 {
-	m_Sprite.setRadius(radius);
+	m_Sprite.setRadius(converter::metersToPixels(radius));
 	m_Sprite.setFillColor(color);
+	m_Sprite.setOrigin({ converter::metersToPixels(radius), converter::metersToPixels(radius) });
 }
 
-Ball::Ball(float damage, float maxSpeed, float radius, b2Vec2 startingPosition, sf::Color color)
+Ball::Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId)
 {
-	m_Impulse  = 0;
-	m_Damage   = damage;
-	m_MaxSpeed = maxSpeed;	
+	m_WorldId = worldId;
+	m_Damage = damage;
+	m_MaxSpeed = maxSpeed;
 
-	createBody(radius, startingPosition);
 	createSprite(radius, color);
-
 }
 
-void Ball::draw(sf::RenderTarget& target)
+void Ball::launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse)
 {
+	createBody(converter::pixelsToMeters(m_Sprite.getRadius()), startingPos);
+
+	b2Vec2 velocity = normalizedDirection * impulse * m_MaxSpeed;
+
+	b2Body_SetLinearVelocity(m_BodyId, velocity);
+}
+
+void Ball::setWorldId(b2WorldId worldId)
+{
+	m_WorldId = worldId;
+}
+
+void Ball::update()
+{
+	if (!b2Body_IsValid(m_BodyId))
+	{
+		return;
+	}
+
 	b2Vec2 position = b2Body_GetPosition(m_BodyId);
 
 	sf::Vector2f positionInPixels(
@@ -61,6 +81,9 @@ void Ball::draw(sf::RenderTarget& target)
 	);
 
 	m_Sprite.setPosition(positionInPixels);
+}
 
-	target.draw(m_Sprite);
+void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(m_Sprite, states);
 }

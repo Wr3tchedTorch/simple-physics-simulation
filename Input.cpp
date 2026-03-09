@@ -8,6 +8,7 @@
 #include "Converter.h"
 #include "BodyModel.h"
 #include <random>
+#include <SFML/Window/Keyboard.hpp>
 
 void GameEngine::input()
 {
@@ -21,7 +22,9 @@ void GameEngine::input()
 		{
 			sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition());
 			if (mouse->button == sf::Mouse::Button::Left)
-			{
+			{				
+				m_SlingShot.leftMouseClick();
+
 				sf::Angle angle = sf::degrees(45);
 				b2Rot rot = b2MakeRot(angle.asRadians());
 
@@ -40,6 +43,13 @@ void GameEngine::input()
 			if (mouse->button == sf::Mouse::Button::Right)
 			{
 				m_PhysicsEngine.destroyBodyAtLocation(mousePosition);
+			}			
+		}
+		if (auto mouse = event->getIf<sf::Event::MouseButtonReleased>())
+		{
+			if (mouse->button == sf::Mouse::Button::Left)
+			{
+				m_SlingShot.leftMouseRelease();
 			}
 		}
 	}

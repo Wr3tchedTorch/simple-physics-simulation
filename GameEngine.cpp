@@ -8,9 +8,11 @@
 #include <types.h>
 #include "Converter.h"
 #include "BodyModel.h"
-#include <memory>
+#include "Ball.h"
 
-GameEngine::GameEngine()
+GameEngine::GameEngine() :
+	m_SlingShot(5, 5),
+	m_Ball(100, 5, 1, sf::Color::Red, m_PhysicsEngine.getWorld())
 {
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
 	m_Resolution = sf::Vector2f(vm.size);
@@ -33,7 +35,9 @@ GameEngine::GameEngine()
 			converter::pixelsToMeters(m_Resolution.x),
 			5
 		},
-		b2Rot_identity, model, b2_staticBody);
+		b2Rot_identity, model, b2_staticBody);	
+
+	m_Ball.setWorldId(m_PhysicsEngine.getWorld());
 }
 
 void GameEngine::run()
