@@ -88,6 +88,7 @@ void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rota
 
 	b2Polygon  polygon  = b2MakeBox(size.x / 2.0f, size.y / 2.0f);
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
+	
 	if (type == b2_dynamicBody)
 	{
 		shapeDef.density = 1.0f;

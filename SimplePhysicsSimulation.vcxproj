@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="Update.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="BodyModel.h" />
     <ClInclude Include="Converter.h" />
     <ClInclude Include="GameEngine.h" />

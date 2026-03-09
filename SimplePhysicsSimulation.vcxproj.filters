@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{51d0f7c3-a837-4059-97df-86f8c6f6d721}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObjects">
+      <UniqueIdentifier>{fda4bd53-67bb-4e3b-bd9d-94c6531e244b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="PhysicsEngine.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.h">
@@ -51,7 +57,10 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="BodyModel.h">
-      <Filter>Header Files\Engine</Filter>
+      <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
