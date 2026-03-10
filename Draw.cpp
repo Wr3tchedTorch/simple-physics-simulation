@@ -66,7 +66,10 @@ void GameEngine::draw()
 			m_Window.draw(sprite);
 		});
 
-	m_Window.draw(m_BoxFactory);
+	if (GameEngine::IsEditMode)
+	{
+		m_Window.draw(m_BoxFactory);
+	}
 	m_Window.draw(m_SlingShot);
 	m_Window.draw(m_Ball);
 

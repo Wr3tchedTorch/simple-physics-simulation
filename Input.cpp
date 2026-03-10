@@ -39,59 +39,63 @@ void GameEngine::input()
 		}
 		if (auto keyPressed = event->getIf<sf::Event::KeyPressed>())
 		{
-			if (keyPressed->scancode == sf::Keyboard::Scancode::N)
+			if (GameEngine::IsEditMode)
 			{
-				m_BoxFactory.nextBoxType();
+				if (keyPressed->scancode == sf::Keyboard::Scancode::N)
+				{
+					m_BoxFactory.nextBoxType();
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
+				{
+					m_BoxFactory.increaseSizeX(-20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
+				{
+					m_BoxFactory.increaseSizeX(20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
+				{
+					m_BoxFactory.increaseSizeY(-20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
+				{
+					m_BoxFactory.increaseSizeY(20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::D)
+				{
+					m_BoxFactory.moveX(20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::A)
+				{
+					m_BoxFactory.moveX(-20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
+				{
+					m_BoxFactory.moveY(20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::W)
+				{
+					m_BoxFactory.moveY(-20);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::R)
+				{
+					m_BoxFactory.rotate(sf::degrees(90).asRadians());
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
+				{
+					m_BoxFactory.createBox();
+				}
 			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
-			{
-				m_BoxFactory.increaseSizeX(-20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
-			{
-				m_BoxFactory.increaseSizeX(20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
-			{
-				m_BoxFactory.increaseSizeY(-20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
-			{
-				m_BoxFactory.increaseSizeY(20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::D)
-			{
-				m_BoxFactory.moveX(20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::A)
-			{
-				m_BoxFactory.moveX(-20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
-			{
-				m_BoxFactory.moveY(20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::W)
-			{
-				m_BoxFactory.moveY(-20);
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::R)
-			{
-				m_BoxFactory.rotate(sf::degrees(90).asRadians());
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
-			{
-				m_BoxFactory.createBox();
-			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+			
+			if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 			{
 				m_Window.close();
 			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
 			{
 				GameEngine::IsEditMode = false;
 			}
-			else if (keyPressed->scancode == sf::Keyboard::Scancode::Apostrophe)
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Backslash)
 			{
 				GameEngine::IsEditMode = true;
 			}
