@@ -9,6 +9,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include "BodyModel.h"
 #include "GameEngine.h"
+#include "BodyModelBlueprint.h"
 
 BoxFactory::BoxFactory(std::shared_ptr<PhysicsEngine> physicsEngine)
 {	
@@ -109,7 +110,7 @@ void BoxFactory::rotate(float radians)
 	m_Sprite.rotate(sf::radians(radians));
 }
 
-void BoxFactory::createBox()
+BodyModelBlueprint BoxFactory::createBox()
 {
 	b2Vec2 locationInMeters =
 	{
@@ -126,6 +127,17 @@ void BoxFactory::createBox()
 	b2Rot angle = b2MakeRot(m_Sprite.getRotation().asRadians());
 
 	m_PhysicsEngine->spawnBodyAtLocation(locationInMeters, sizeInMeters, angle, m_BoxTypes[m_CurrentBoxIndex]);
+
+	BodyModelBlueprint modelBlueprint;
+	modelBlueprint.m_Color = m_BoxTypes[m_CurrentBoxIndex].m_Color;
+	modelBlueprint.m_Type  = m_BoxTypes[m_CurrentBoxIndex].m_Type;
+	modelBlueprint.m_MaxHealth = m_BoxTypes[m_CurrentBoxIndex].m_MaxHealth;
+	modelBlueprint.m_MaterialDamageMultiplier = m_BoxTypes[m_CurrentBoxIndex].m_MaterialDamageMultiplier;
+
+	modelBlueprint.m_Position = locationInMeters;
+	modelBlueprint.m_Size = sizeInMeters;
+
+	return modelBlueprint;
 }
 
 void BoxFactory::draw(sf::RenderTarget& target, sf::RenderStates states) const

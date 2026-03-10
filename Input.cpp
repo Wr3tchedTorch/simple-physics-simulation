@@ -82,8 +82,9 @@ void GameEngine::input()
 					m_BoxFactory.rotate(sf::degrees(90).asRadians());
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
-				{
-					m_BoxFactory.createBox();
+				{					
+					m_BodyModelSerializer.serializeModel(m_BoxFactory.createBox());
+					m_BodyModelSerializer.saveChanges();
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
 				{
@@ -92,6 +93,10 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::L)
 				{
 					// load next level
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Tab)
+				{
+					m_PhysicsEngine->switchSimulationState();
 				}
 			}
 			
@@ -102,10 +107,12 @@ void GameEngine::input()
 			else if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
 			{
 				GameEngine::IsEditMode = false;
+				m_PhysicsEngine->resumeSimulation();
 			}
 			else if (keyPressed->scancode == sf::Keyboard::Scancode::Backslash)
 			{
 				GameEngine::IsEditMode = true;
+				m_PhysicsEngine->stopSimulation();
 			}
 		}
 

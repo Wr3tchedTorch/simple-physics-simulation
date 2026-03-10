@@ -40,7 +40,7 @@ void GameEngine::update(float delta)
 
 			BodyModel* model = static_cast<BodyModel*>(b2Body_GetUserData(box));
 
-			model->m_Health -= 1 * hitEvent->approachSpeed;
+			model->m_Health -= 3 * hitEvent->approachSpeed;
 			if (model->m_Health <= 0)
 			{
 				b2DestroyBody(box);

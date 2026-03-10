@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <vector>
+#include "BodyModelBlueprint.h"
 
 #pragma once
 class BoxFactory : public sf::Drawable
@@ -26,7 +27,7 @@ public:
 	void moveX(float amount);
 	void moveY(float amount);
 	void rotate(float radians);
-	void createBox();
+	BodyModelBlueprint createBox();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

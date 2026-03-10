@@ -2,6 +2,7 @@
 #include <string>
 class ObjectSerializationTags
 {
+public:
 	static const std::string START_OBJECT;
 	static const std::string END_OBJECT;
 	

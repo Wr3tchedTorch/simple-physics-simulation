@@ -21,6 +21,8 @@ GameEngine::GameEngine() :
 	m_PhysicsEngine(std::make_shared<PhysicsEngine>()),
 	m_BoxFactory(m_PhysicsEngine)
 {
+	m_BodyModelSerializer.setLevelFilepath("levels/level1.DAT");
+
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
 	Resolution = sf::Vector2f(vm.size);
 	

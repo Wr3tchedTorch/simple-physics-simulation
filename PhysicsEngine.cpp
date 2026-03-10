@@ -134,7 +134,10 @@ void PhysicsEngine::destroyBodyAtLocation(b2Vec2 location)
 
 void PhysicsEngine::update(float delta)
 {
-	b2World_Step(m_WorldId, TIME_STEP, SUB_STEP_COUNT);
+	if (m_IsSimulating)
+	{
+		b2World_Step(m_WorldId, TIME_STEP, SUB_STEP_COUNT);
+	}
 }
 
 b2WorldId PhysicsEngine::getWorld()

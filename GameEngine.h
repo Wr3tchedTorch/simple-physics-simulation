@@ -6,6 +6,7 @@
 #include "SlingShot.h"
 #include <memory>
 #include "BoxFactory.h"
+#include "BodyModelSerializer.h"
 
 class GameEngine
 {
@@ -17,6 +18,7 @@ private:
 	Ball m_Ball;
 	SlingShot m_SlingShot;
 	BoxFactory m_BoxFactory;
+	BodyModelSerializer m_BodyModelSerializer;
 
 	void update(float delta);
 	void input();

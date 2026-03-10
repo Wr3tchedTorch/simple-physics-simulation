@@ -18,6 +18,8 @@ private:
 	const int   SUB_STEP_COUNT = 4;
 
 	b2WorldId m_WorldId;
+
+	bool m_IsSimulating = true;
 	
 	std::unordered_map<b2BodyId, std::unique_ptr<BodyModel>, b2BodyIdHash, b2BodyIdEqual> m_Bodies;
 
@@ -29,6 +31,21 @@ public:
 	void spawnBodyAtLocation(sf::Vector2f location, sf::Vector2f size, sf::Angle rotation, BodyModel model, b2BodyType type = b2_dynamicBody);
 	void destroyBodyAtLocation(sf::Vector2f location);
 	void destroyBody(b2BodyId body);
+
+	void switchSimulationState()
+	{
+		m_IsSimulating = !m_IsSimulating;
+	}
+
+	void stopSimulation()
+	{
+		m_IsSimulating = false;
+	}
+
+	void resumeSimulation()
+	{
+		m_IsSimulating = true;
+	}
 
 	void spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rotation, BodyModel model, b2BodyType type = b2_dynamicBody);
 	void destroyBodyAtLocation(b2Vec2 location);

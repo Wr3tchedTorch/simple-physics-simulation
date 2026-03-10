@@ -4,13 +4,12 @@
 #include <id.h>
 #include <math_functions.h>
 
-struct BodyModel
+struct BodyModelBlueprint
 {	
-	std::string m_Type = "box";
+	std::string m_Type;
 	sf::Color m_Color;
-	b2BodyId  m_Id;
-	float m_MaterialDamageMultiplier = 1.0f;
-	float m_MaxHealth = 100.0f;
+	float m_MaterialDamageMultiplier;
+	float m_MaxHealth;
 
 	b2Vec2 m_Position;
 	b2Vec2 m_Size;
