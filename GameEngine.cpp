@@ -16,8 +16,8 @@ bool GameEngine::IsPlaying = false;
 sf::Vector2f GameEngine::Resolution = {0, 0};
 
 GameEngine::GameEngine() :
-	m_SlingShot(7, 8),
-	m_Ball(100, 5, 1, sf::Color::Red, m_PhysicsEngine->getWorld()),
+	m_SlingShot(4, 20, {400, 1080.0f/2.0f}),
+	m_Ball(100, 2, 1, sf::Color::Red, m_PhysicsEngine->getWorld()),
 	m_PhysicsEngine(std::make_shared<PhysicsEngine>()),
 	m_BoxFactory(m_PhysicsEngine)
 {

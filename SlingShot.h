@@ -23,12 +23,12 @@ private:
 	Ball* m_CurrentLoadedBall;
 
 public:
-	SlingShot(float maxDragDistance, float maxImpulse);
+	SlingShot(float maxDragDistance, float maxImpulse, sf::Vector2f startingBallPosition);
 
 	void setAmmo(Ball& ball)
 	{
 		m_CurrentLoadedBall = &ball;
-		m_CurrentLoadedBall->setPosition({-200, -200});
+		m_CurrentLoadedBall->setPosition(m_StartingBallPosition);
 	}
 
 	void leftMouseClick();
