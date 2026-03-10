@@ -15,7 +15,8 @@ struct BodyModel
 	sf::Color m_Color;
 
     float m_MaterialDamageMultiplier = 1.0f;
-	float m_Health = 100.0f;
+	float m_Health    = 100.0f;
+    float m_MaxHealth = 100.0f;
 };
 
 struct b2BodyIdHash {

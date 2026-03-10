@@ -24,14 +24,47 @@ void GameEngine::update(float delta)
 		bool isStaticBodyCollision = b2Body_GetType(bodyA) == b2_staticBody ||
 									 b2Body_GetType(bodyB) == b2_staticBody;
 
-		if (isStaticBodyCollision)
-		{
-			return;
-		}
 
 		bool isBallPresent = B2_ID_EQUALS(m_Ball.getBodyId(), bodyA) ||
 							 B2_ID_EQUALS(m_Ball.getBodyId(), bodyB);
+
+		if (isStaticBodyCollision && !isBallPresent)
+		{			
+			b2BodyId staticBody = b2Body_GetType(bodyB) == b2_staticBody ? bodyB : bodyA;
+			b2BodyId box		= B2_ID_EQUALS(staticBody, bodyA) ? bodyB : bodyA;
+
+			BodyModel* model = static_cast<BodyModel*>(b2Body_GetUserData(box));
+
+			model->m_Health -= 1 * hitEvent->approachSpeed;
+			if (model->m_Health <= 0)
+			{
+				b2DestroyBody(box);
+			}
+
+			return;
+		}
+
 		if (!isBallPresent)
+		{
+			BodyModel* modelA = static_cast<BodyModel*>(b2Body_GetUserData(bodyA));
+			BodyModel* modelB = static_cast<BodyModel*>(b2Body_GetUserData(bodyB));
+
+			modelA->m_Health -= 5 * hitEvent->approachSpeed;
+			modelB->m_Health -= 5 * hitEvent->approachSpeed;
+
+			if (modelA->m_Health <= 0)
+			{
+				b2DestroyBody(bodyA);
+			}
+			if (modelB->m_Health <= 0)
+			{
+				b2DestroyBody(bodyB);
+			}
+
+			return;
+		}
+
+		if (isStaticBodyCollision)
 		{
 			return;
 		}

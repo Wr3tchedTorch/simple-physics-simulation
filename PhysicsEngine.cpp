@@ -89,7 +89,8 @@ void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rota
 	if (type == b2_dynamicBody)
 	{
 		shapeDef.density = 1.0f;
-		shapeDef.material.friction   = .3f;		
+		shapeDef.material.friction = .3f;		
+		shapeDef.enableHitEvents = true;
 	}
 	b2CreatePolygonShape(bodyId, &shapeDef, &polygon);	
 

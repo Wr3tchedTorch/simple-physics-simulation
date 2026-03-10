@@ -9,6 +9,7 @@
 #include <collision.h>
 #include "BodyModel.h"
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 void GameEngine::draw()
 {
@@ -22,7 +23,15 @@ void GameEngine::draw()
 			}
 
 			sf::RectangleShape sprite;
-			sprite.setFillColor(body.m_Color);
+			sprite.setFillColor(body.m_Color);			
+			
+			if (body.m_Type == "box")
+			{
+				float percentage = body.m_Health / body.m_MaxHealth;
+				float fadeColor = 255 * percentage;
+				sprite.setOutlineColor(sf::Color(255, fadeColor, fadeColor));
+				sprite.setOutlineThickness(3);
+			}
 
 			b2Transform transformInMeters = b2Body_GetTransform(id);
 			b2Rot bodyRot = b2Body_GetRotation(id);
