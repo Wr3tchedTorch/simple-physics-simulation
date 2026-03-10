@@ -5,12 +5,16 @@
 #include <type_traits>
 #include <string.h>
 #include <cstring>
+#include <string>
 
 struct BodyModel
 {
+    std::string m_Type = "box";
+
 	b2BodyId  m_Id;
 	sf::Color m_Color;
 
+    float m_MaterialDamageMultiplier = 1.0f;
 	float m_Health = 100.0f;
 };
 

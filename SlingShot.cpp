@@ -85,12 +85,7 @@ void SlingShot::update(sf::Vector2f mousePosition)
 		m_StartingBallPosition.x  > m_DragMousePosition.x - 25;
 
 	if (isDragging && isDragValid && isDragWithinRange)
-	{
-		#ifdef _DEBUG
-		std::cout << std::format("\nm_StartingBallPosition.x: {}, m_DragMousePosition.x: {}, distance between start pos and drag: {}, max drag distance: {}", m_StartingBallPosition.x, m_DragMousePosition.x, (m_DragMousePosition - m_StartingBallPosition).length(), m_MaxDragDistance);
-		#endif // _DEBUG
-
-
+	{	
 		sf::Vector2f direction = m_CurrentMousePosition - m_DragMousePosition;
 		float distance = std::min(direction.length(), m_MaxDragDistance);
 

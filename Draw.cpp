@@ -16,6 +16,11 @@ void GameEngine::draw()
 
 	m_PhysicsEngine->forEachBody([this](b2BodyId id, const BodyModel& body) -> void
 		{
+			if (!b2Body_IsValid(id))
+			{
+				return;
+			}
+
 			sf::RectangleShape sprite;
 			sprite.setFillColor(body.m_Color);
 

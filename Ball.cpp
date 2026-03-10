@@ -12,6 +12,7 @@
 #include <id.h>
 #include <iostream>
 #include <format>
+#include "BodyModel.h"
 
 void Ball::createBody(float radius, b2Vec2 startingPosition)
 {
@@ -28,7 +29,8 @@ void Ball::createBody(float radius, b2Vec2 startingPosition)
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
 	shapeDef.density = 1.0f;
 	shapeDef.material.restitution = 0.2f;
-	shapeDef.material.friction = 0.3f;
+	shapeDef.material.friction    = 0.3f;
+	shapeDef.enableHitEvents  = true;
 
 	b2Circle circle{};
 	circle.radius = radius;
@@ -64,6 +66,29 @@ void Ball::launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse)
 
 	b2Body_SetAwake(m_BodyId, true);
 	b2Body_SetLinearVelocity(m_BodyId, velocity);
+}
+
+void Ball::applyDamage(BodyModel* target, float approachSpeed)
+{
+
+	const float MIN_SPEED = 4.0f;
+	const float MAX_SPEED = 60.0f;
+	float impactPower = (approachSpeed - MIN_SPEED) / (MAX_SPEED - MIN_SPEED);
+	impactPower = b2ClampFloat(impactPower, 0.0f, 1.0f);
+
+	float curvedPower = impactPower * impactPower;
+
+	float totalDamage = curvedPower * m_Damage * target->m_MaterialDamageMultiplier;
+
+	#ifdef _DEBUG
+	std::cout << std::format("\napplying damage to a box, approach speed: {}, damage: {}, total damage: {}", approachSpeed, m_Damage, totalDamage);
+	#endif
+
+	target->m_Health -= totalDamage;
+	if (target->m_Health <= 0)
+	{
+		b2DestroyBody(target->m_Id);
+	}
 }
 
 void Ball::setWorldId(b2WorldId worldId)

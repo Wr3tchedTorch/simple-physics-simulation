@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <box2d.h>
 #include <SFML/System/Vector2.hpp>
+#include "BodyModel.h"
 
 class Ball : public sf::Drawable
 {
@@ -33,10 +34,17 @@ public:
 		m_Sprite.setPosition(newPos);
 	}
 
+	b2BodyId getBodyId() const
+	{
+		return m_BodyId;
+	}
+
 	sf::CircleShape& getSprite()
 	{
 		return m_Sprite;
 	}
+
+	void applyDamage(BodyModel* target, float approachSpeed);
 
 	void setWorldId(b2WorldId worldId);
 	void update();

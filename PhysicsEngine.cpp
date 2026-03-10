@@ -81,6 +81,7 @@ void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rota
 
 	b2BodyId bodyId = b2CreateBody(m_WorldId, &bodyDef);	
 	m_Bodies[bodyId] = std::move(modelPtr);
+	m_Bodies[bodyId]->m_Id = bodyId;
 
 	b2Polygon  polygon  = b2MakeBox(size.x / 2.0f, size.y / 2.0f);
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
@@ -88,7 +89,7 @@ void PhysicsEngine::spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rota
 	if (type == b2_dynamicBody)
 	{
 		shapeDef.density = 1.0f;
-		shapeDef.material.friction = .3f;
+		shapeDef.material.friction   = .3f;		
 	}
 	b2CreatePolygonShape(bodyId, &shapeDef, &polygon);	
 
