@@ -20,6 +20,7 @@ private:
 	sf::Vector2f m_StartingBallPosition;
 
 	sf::RectangleShape m_SlingshotRect;
+	sf::RectangleShape m_SlingshotBaseRect;
 	Ball* m_CurrentLoadedBall;
 
 public:

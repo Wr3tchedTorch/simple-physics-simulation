@@ -9,6 +9,8 @@
 #include <format>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <math_functions.h>
+#include "GameEngine.h"
+#include <SFML/Graphics/Color.hpp>
 
 SlingShot::SlingShot(float maxDragDistance, float maxImpulse, sf::Vector2f startingBallPosition)
 {
@@ -20,6 +22,17 @@ SlingShot::SlingShot(float maxDragDistance, float maxImpulse, sf::Vector2f start
 	m_SlingshotRect.setPosition(startingBallPosition);
 	m_SlingshotRect.setSize({ 0, converter::metersToPixels(.5f) });
 	m_SlingshotRect.setOrigin({ 0, m_SlingshotRect.getSize().y/2.0f });
+
+	m_SlingshotBaseRect.setPosition(startingBallPosition);
+	m_SlingshotBaseRect.setSize(
+		{ 
+			converter::metersToPixels(1),  
+			350
+		}
+	);
+	m_SlingshotBaseRect.setFillColor(sf::Color(153, 102, 51));
+
+	m_SlingshotBaseRect.setOrigin({ m_SlingshotBaseRect.getSize().x / 2.0f, 0 });
 }
 
 void SlingShot::leftMouseClick()
@@ -77,6 +90,15 @@ void SlingShot::leftMouseRelease()
 
 void SlingShot::update(sf::Vector2f mousePosition)
 {
+	bool isBallOutOfScreen = m_CurrentLoadedBall->getSprite().getPosition().x > GameEngine::Resolution.x + 100 ||
+							 m_CurrentLoadedBall->getSprite().getPosition().x < 0 - 100 ||
+							 m_CurrentLoadedBall->getSprite().getPosition().y > GameEngine::Resolution.y + 100;
+	if (isBallOutOfScreen)
+	{
+		m_CurrentLoadedBall->reset();
+		m_CurrentLoadedBall->setPosition(m_StartingBallPosition);
+	}
+
 	m_CurrentMousePosition = mousePosition;
 	
 	bool isDragWithinRange = (m_DragMousePosition - m_StartingBallPosition).length() < m_MaxDragDistance;
@@ -102,6 +124,7 @@ void SlingShot::update(sf::Vector2f mousePosition)
 
 void SlingShot::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {	
+	target.draw(m_SlingshotBaseRect);
 	if (!isDragging)
 	{
 		return;

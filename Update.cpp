@@ -13,6 +13,11 @@ void GameEngine::update(float delta)
 	b2ContactEvents contactEvents = b2World_GetContactEvents(m_PhysicsEngine->getWorld());
 	for (int i = 0; i < contactEvents.hitCount; ++i)
 	{
+		if (GameEngine::IsEditMode)
+		{
+			break;
+		}
+
 		b2ContactHitEvent* hitEvent = contactEvents.hitEvents + i;
 
 		b2ShapeId shapeA = hitEvent->shapeIdA;

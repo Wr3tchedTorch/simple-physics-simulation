@@ -12,7 +12,7 @@
 #include <memory>
 #include "PhysicsEngine.h"
 
-bool GameEngine::IsPlaying = false;
+bool GameEngine::IsEditMode = false;
 sf::Vector2f GameEngine::Resolution = {0, 0};
 
 GameEngine::GameEngine() :

@@ -18,13 +18,12 @@ private:
 	SlingShot m_SlingShot;
 	BoxFactory m_BoxFactory;
 
-
 	void update(float delta);
 	void input();
 	void draw();
 
 public:
-	static bool IsPlaying;
+	static bool IsEditMode;
 	static sf::Vector2f	Resolution;
 
 	GameEngine();

@@ -87,6 +87,14 @@ void GameEngine::input()
 			{
 				m_Window.close();
 			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+			{
+				GameEngine::IsEditMode = false;
+			}
+			else if (keyPressed->scancode == sf::Keyboard::Scancode::Apostrophe)
+			{
+				GameEngine::IsEditMode = true;
+			}
 		}
 
 	}
