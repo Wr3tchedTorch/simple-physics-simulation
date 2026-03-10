@@ -25,6 +25,12 @@
     <Filter Include="Source Files\GameObjects">
       <UniqueIdentifier>{2e60b0c9-aa35-416d-b216-255de2ccbeb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\FileIO">
+      <UniqueIdentifier>{4a9c020f-90b6-477b-9f2f-c4a4096f64d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileIO">
+      <UniqueIdentifier>{cdde7fb3-27c5-4d0a-acba-4ba2aef41545}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -54,6 +60,15 @@
     <ClCompile Include="BoxFactory.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="BodyModelParser.cpp">
+      <Filter>Source Files\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="BodyModelSerializer.cpp">
+      <Filter>Source Files\FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectSerializationTags.cpp">
+      <Filter>Source Files\FileIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.h">
@@ -76,6 +91,18 @@
     </ClInclude>
     <ClInclude Include="BoxFactory.h">
       <Filter>Header Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BodyModelBlueprint.h">
+      <Filter>Header Files\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="BodyModelParser.h">
+      <Filter>Header Files\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="BodyModelSerializer.h">
+      <Filter>Header Files\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSerializationTags.h">
+      <Filter>Header Files\FileIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

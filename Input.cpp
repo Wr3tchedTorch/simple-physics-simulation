@@ -85,6 +85,14 @@ void GameEngine::input()
 				{
 					m_BoxFactory.createBox();
 				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
+				{
+					// save current level
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::L)
+				{
+					// load next level
+				}
 			}
 			
 			if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
