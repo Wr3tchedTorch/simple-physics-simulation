@@ -26,12 +26,14 @@ void Ball::createBody(float radius, b2Vec2 startingPosition)
 	bodyDef.userData = this;
 	bodyDef.fixedRotation = true;
 	bodyDef.isAwake = false;
+	bodyDef.gravityScale = 2.0f;
+	bodyDef.linearDamping = 0.05f;
 
 	m_BodyId = b2CreateBody(m_WorldId, &bodyDef);
 
 	b2ShapeDef shapeDef = b2DefaultShapeDef();
 	shapeDef.density = 1.0f;
-	shapeDef.material.restitution = 0.2f;
+	shapeDef.material.restitution = 0.25f;
 	shapeDef.material.friction    = 0.3f;
 	shapeDef.enableHitEvents  = true;	
 
@@ -122,7 +124,7 @@ void Ball::launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse)
 
 	m_TimeSinceLanch = GameEngine::GameTimeTotal;
 
-	b2Vec2 velocity = normalizedDirection * impulse * m_MaxSpeed;
+	b2Vec2 velocity = normalizedDirection * impulse;
 
 	b2Body_SetAwake(m_BodyId, true);
 	b2Body_SetLinearVelocity(m_BodyId, velocity);

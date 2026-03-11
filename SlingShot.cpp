@@ -69,10 +69,11 @@ void SlingShot::leftMouseRelease()
 
 	sf::Vector2f direction = m_DragMousePosition - m_CurrentMousePosition;
 	float distance = std::min(direction.length(), m_MaxDragDistance);
-
+	
+	direction.y *= 1.3f;
 	direction = direction.normalized();
 
-	float impulse = converter::pixelsToMeters(m_MaxImpulse * std::pow(distance / m_MaxDragDistance, 2.0f));
+	float impulse = converter::pixelsToMeters(m_MaxImpulse * std::sqrt(distance / m_MaxDragDistance));
 
 	b2Vec2 startPos =
 	{

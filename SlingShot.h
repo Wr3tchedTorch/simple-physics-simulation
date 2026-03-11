@@ -32,7 +32,7 @@ public:
 	{
 		m_StartingBallPosition = position;
 		m_SlingshotBaseRect.setPosition(position);
-		m_SlingshotBaseRect.setPosition(position);
+		m_SlingshotRect.setPosition(position);
 	}
 
 	void setGlobalBounds(sf::FloatRect globalBounds)

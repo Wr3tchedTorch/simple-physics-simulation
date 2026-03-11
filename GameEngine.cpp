@@ -19,7 +19,7 @@ sf::Vector2f GameEngine::Resolution = {0, 0};
 sf::Time GameEngine::GameTimeTotal;
 
 GameEngine::GameEngine() :
-	m_SlingShot(4, 30, {400, 1080.0f/2.0f + 130}),
+	m_SlingShot(4, 40, {400, 1080.0f/2.0f + 130}),
 	m_PhysicsEngine(std::make_shared<PhysicsEngine>()),
 	m_Ball(180.0f, 2, 1, sf::Color::Red, m_PhysicsEngine->getWorld()),
 	m_BoxFactory(m_PhysicsEngine),
@@ -50,7 +50,7 @@ GameEngine::GameEngine() :
 	m_SlingShot.setGlobalBounds(globalBounds);
 
 	m_SlingShot.setStartingBallPosition({
-		converter::metersToPixels(2),
+		-converter::metersToPixels(8),
 		m_GameView.getCenter().y + m_GameView.getSize().y / 2.0f - converter::metersToPixels(5) - 250
 	});
 
