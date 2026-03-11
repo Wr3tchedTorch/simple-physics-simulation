@@ -53,9 +53,7 @@ void SlingShot::leftMouseClick()
 	}
 
 	m_SlingshotRect.setSize({ 0, m_SlingshotRect.getSize().y });
-	m_IsDragging = true;
-	
-	loadNextBall();	
+	m_IsDragging = true;	
 }
 
 void SlingShot::leftMouseRelease()
@@ -72,12 +70,13 @@ void SlingShot::leftMouseRelease()
 
 	if (!isDragValid || !isDragWithinRange)
 	{
-		m_IsDragging = false;	
+		m_IsDragging = false;
 		reloadPreviousBall();
 		return;
 	}
 
 	sf::Vector2f direction = m_DragMousePosition - m_CurrentMousePosition;
+
 	float distance = std::min(direction.length(), m_MaxDragDistance);
 	
 	direction.y *= 1.3f;
@@ -92,7 +91,10 @@ void SlingShot::leftMouseRelease()
 	};
 
 	m_Balls.at(m_CurrentBallIndex)->launch(startPos, {direction.x, direction.y}, impulse);
+	m_LaunchedCurrentBall = true;
 	m_IsDragging = false;
+
+	loadNextBall();
 
 	#ifdef _DEBUG
 	std::cout << std::format("\nLaunching ball: Impulse ({}); Direction (x: {}, y: {}); Distance ({}), Starting Position (x: {}, y: {})", impulse, direction.x, direction.y, distance, m_StartingBallPosition.x, m_StartingBallPosition.y);

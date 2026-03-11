@@ -28,6 +28,7 @@ void Ball::createBody(float radius, b2Vec2 startingPosition)
 	bodyDef.isAwake = false;
 	bodyDef.gravityScale = 2.0f;
 	bodyDef.linearDamping = 0.05f;
+	bodyDef.enableSleep = true;
 
 	m_BodyId = b2CreateBody(m_WorldId, &bodyDef);
 
@@ -134,8 +135,8 @@ void Ball::launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse)
 
 bool Ball::applyDamage(BodyModel* target, float approachSpeed)
 {	
-	const float MIN_SPEED = 4.0f;
-	const float MAX_SPEED = 60.0f;
+	const float MIN_SPEED = 1.0f;
+	const float MAX_SPEED = 30.0f;
 	float impactPower = (approachSpeed - MIN_SPEED) / (MAX_SPEED - MIN_SPEED);
 	impactPower = b2ClampFloat(impactPower, 0.0f, 1.0f);
 
@@ -178,10 +179,14 @@ void Ball::update()
 
 	m_Sprite.setPosition(positionInPixels);
 
-	bool isOutOfBounds = positionInPixels.x - m_Sprite.getRadius() / 2.0f > m_WorldBounds.position.x + m_WorldBounds.size.x ||
-						 positionInPixels.x + m_Sprite.getRadius() / 2.0f < m_WorldBounds.position.x;
+	bool isOutOfBounds = positionInPixels.x - m_Sprite.getRadius() / 2.0f - 1 > m_WorldBounds.position.x + m_WorldBounds.size.x ||
+						 positionInPixels.x + m_Sprite.getRadius() / 2.0f + 1 < m_WorldBounds.position.x;
 	if (isOutOfBounds)
 	{
+#ifdef _DEBUG
+		std::cout << "\nBall out of bounds!";
+#endif // _DEBUG
+
 		m_IsActive = false;
 		sleep();
 		return;

@@ -62,12 +62,6 @@ void HUD::drawGameHUD(sf::RenderTarget& target, sf::View& hudView, std::string c
 		m_TextScore.getLocalBounds().size.y + m_PADDING + 40
 		});
 
-	m_TextNumberOfTries.setString(std::format("Tentativas: {}", currentNumberOfTries));
-	m_TextNumberOfTries.setPosition({
-		m_TextScore.getPosition().x + m_TextScore.getLocalBounds().size.x + m_PADDING*5,
-		m_TextScore.getPosition().y
-		});
-
 	target.draw(m_TitleScreen);
 	target.draw(m_TextScore);
 	target.draw(m_TextNumberOfTries);
@@ -86,7 +80,7 @@ void HUD::drawEditorModeHUD(
 	sf::Vector2f viewCenter = hudView.getCenter();
 	sf::Vector2f viewSize = hudView.getSize();
 
-	m_TitleScreen.setString("Map Editor");
+	m_TitleScreen.setString("Editor de level");
 	m_TitleScreen.setPosition(
 		{
 			viewCenter.x - m_TitleScreen.getLocalBounds().size.x / 2.0f,
@@ -119,12 +113,18 @@ void HUD::drawEditorModeHUD(
 	m_TextControls.setString(
 	R"(
 Trocar Level: 1...5
+Limpar Level: Delete
+Excluir Caixa: click direito
 Mover Caixa: WASD
+Aumentar Caixa: setinhas
+Mover Caixa devagar: Shift + WASD
+Aumentar Caixa devagar: Shift + Setinhas
+Trocar material: N
 Girar Caixa: R
 Criar Caixa: Enter
 Ativar/Desativar simulacao: Tab
 Salvar level: Ctrl + S
-Iniciar Jogo: Espaco
+Iniciar Jogo: "
 		)"
 	);
 	m_TextControls.setPosition(

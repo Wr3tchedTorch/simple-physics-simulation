@@ -11,6 +11,7 @@
 #include <id.h>
 #include <box2d.h>
 #include <math_functions.h>
+#include <cstdlib>
 
 class SlingShot : public sf::Drawable
 {
@@ -22,6 +23,8 @@ private:
 
 	bool m_IsDragging = false;
 	bool m_AnyBallsLeft = true;
+	bool m_LaunchedCurrentBall = false;
+	bool m_ReloadedCurrentBall = false;
 
 	sf::Vector2f m_LaunchDirection;
 	sf::Vector2f m_StartingBallPosition;
@@ -39,6 +42,8 @@ public:
 	void setBalls(std::vector<std::shared_ptr<Ball>> balls)
 	{
 		m_Balls = balls;
+
+		loadNextBall();
 	}
 
 	bool isBall(b2BodyId id)
@@ -57,6 +62,8 @@ public:
 	{
 		m_CurrentBallIndex = -1;
 		m_AnyBallsLeft = true;
+
+		loadNextBall();
 	}
 
 	std::vector<std::shared_ptr<Ball>> getActiveBalls()
@@ -69,14 +76,17 @@ public:
 		bool result = true;
 		for (auto& ball : m_Balls)
 		{
+			if (!ball->isActive())
+			{
+				continue;
+			}
+
 			if (ball == nullptr || !b2Body_IsValid(ball->getBodyId()))
 			{
 				return false;
 			}
 
-			b2Vec2 velocity = b2Body_GetLinearVelocity(ball->getBodyId());
-
-			if (velocity.x > 0.1f || velocity.y > 0.1f)
+			if (b2Body_IsAwake(ball->getBodyId()))
 			{
 				result = false;
 			}
@@ -110,20 +120,13 @@ public:
 			return;
 		}
 		m_Balls.at(m_CurrentBallIndex)->setPosition(m_StartingBallPosition);
+		m_LaunchedCurrentBall = false;
+		m_ReloadedCurrentBall = false;
 	}
 
 	void reloadPreviousBall()
 	{
-		m_CurrentBallIndex--;
-		if (m_CurrentBallIndex < 0)
-		{
-			m_CurrentBallIndex = 0;
-		}
 		m_Balls.at(m_CurrentBallIndex)->setPosition(m_StartingBallPosition);
-		if (m_CurrentBallIndex == 0)
-		{
-			m_CurrentBallIndex = -1;
-		}
 	}
 
 	void leftMouseClick();

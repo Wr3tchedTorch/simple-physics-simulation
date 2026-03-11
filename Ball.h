@@ -57,7 +57,7 @@ public:
 
 	bool isActive()
 	{
-		return m_Traveling;
+		return m_IsActive;
 	}
 	
 	int getLaunchCount()
@@ -107,7 +107,7 @@ public:
 	
 	void sleep()
 	{
-		b2Body_SetAwake(m_BodyId, false);
+		b2Body_SetAwake(m_BodyId, false);		
 	}
 
 	void awake()

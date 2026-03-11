@@ -17,7 +17,7 @@ BoxFactory::BoxFactory(std::shared_ptr<PhysicsEngine> physicsEngine)
 	m_Sprite.setSize({ 50, 50 });
 	m_Sprite.setPosition({ 300, 300 });
 	m_Sprite.setOrigin({ 25, 25 });
-	m_Sprite.setOutlineColor(sf::Color::White);
+	m_Sprite.setOutlineColor(sf::Color::Yellow);
 	m_Sprite.setOutlineThickness(3);
 
 	m_PhysicsEngine = physicsEngine;

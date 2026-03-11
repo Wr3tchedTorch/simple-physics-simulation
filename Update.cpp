@@ -6,6 +6,7 @@
 #include <id.h>
 #include "BodyModel.h"
 #include "Converter.h"
+#include <iostream>
 
 void GameEngine::update(float delta)
 {
@@ -82,6 +83,11 @@ void GameEngine::update(float delta)
 
 		if (model->m_Type == "box")
 		{
+#ifdef _DEBUG
+			std::cout << hitEvent->approachSpeed << "\n";
+#endif // _DEBUG
+
+
 			if (m_Balls.at(0)->applyDamage(model, hitEvent->approachSpeed))
 			{
 				m_PhysicsEngine->destroyBodyById(otherBody);
@@ -99,22 +105,27 @@ void GameEngine::update(float delta)
 	}
 
 	if (m_SlingShot.allBallsStopped())
-	{
-		m_LevelManager.nextLevel();
-		GameEngine::Score = 0;
-
+	{		
 		for (int i = 0; i < m_Balls.size(); i++)
 		{
 			auto& ball = m_Balls[i];
+
+			ball->clearTrail();
 
 			ball->setPosition({
 				-converter::metersToPixels(7.0f + i * 2),
 				m_GameView.getCenter().y + m_GameView.getSize().y / 2.0f - converter::metersToPixels(5) - ball->getSprite().getRadius() / 2.0f
 			});
 			ball->reset();
-		
-			m_SlingShot.reload();
 		}
-		spawnGround();
+		m_SlingShot.reload();
+
+		if (!GameEngine::IsEditMode)
+		{					
+			m_LevelManager.nextLevel();
+			GameEngine::Score = 0;
+
+			spawnGround();
+		}
 	}
 }

@@ -55,35 +55,43 @@ void GameEngine::input()
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Left)
 				{
-					m_BoxFactory.increaseSizeX(-20);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.increaseSizeX(pressedShift ? -1 : -20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Right)
 				{
-					m_BoxFactory.increaseSizeX(20);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.increaseSizeX(pressedShift ? 1 : 20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Down)
 				{
-					m_BoxFactory.increaseSizeY(-20);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.increaseSizeY(pressedShift ? -1 : -20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Up)
 				{
-					m_BoxFactory.increaseSizeY(20);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.increaseSizeY(pressedShift ? 1 : 20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::D)
 				{
-					m_BoxFactory.moveX(10);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.moveX(pressedShift ? 1 : 20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::A)
 				{
-					m_BoxFactory.moveX(-10);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.moveX(pressedShift ? -1 : -20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
 				{
-					m_BoxFactory.moveY(10);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.moveY(pressedShift? 1 : 20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::W)
 				{
-					m_BoxFactory.moveY(-10);
+					bool pressedShift = sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::LShift);
+					m_BoxFactory.moveY(pressedShift ? -1 : -20);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::R)
 				{
@@ -97,6 +105,12 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Tab)
 				{
 					m_PhysicsEngine->switchSimulationState();
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Delete)
+				{
+					m_PhysicsEngine->clearWorld();
+					spawnGround();
+					LevelManager::HasPendingChangesToLevel = true;
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num1)
 				{
