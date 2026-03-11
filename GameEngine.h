@@ -19,7 +19,8 @@ private:
 
 	std::shared_ptr<PhysicsEngine> m_PhysicsEngine;
 
-	Ball m_Ball;
+	std::vector<std::shared_ptr<Ball>> m_Balls;
+
 	SlingShot m_SlingShot;
 	BoxFactory m_BoxFactory;
 	LevelManager m_LevelManager;

@@ -14,6 +14,8 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <random>
+#include <cstdint>
 
 bool GameEngine::IsEditMode = false;
 sf::Vector2f GameEngine::Resolution = {0, 0};
@@ -23,7 +25,6 @@ int GameEngine::Score = 0;
 GameEngine::GameEngine() :
 	m_SlingShot(4, 40, {400, 1080.0f/2.0f + 130}),
 	m_PhysicsEngine(std::make_shared<PhysicsEngine>()),
-	m_Ball(180.0f, 2, 1, sf::Color::Red, m_PhysicsEngine->getWorld()),
 	m_BoxFactory(m_PhysicsEngine),
 	m_LevelManager(m_PhysicsEngine),
 	m_HUD(sf::Font("fonts/Astroz Trial.ttf"), sf::Font("fonts/Vipnagorgialla Rg.otf"))
@@ -64,12 +65,26 @@ GameEngine::GameEngine() :
 	m_SlingShot.setGlobalBounds(globalBounds);
 
 	m_SlingShot.setStartingBallPosition({
-		-converter::metersToPixels(8),
+		-converter::metersToPixels(5),
 		m_GameView.getCenter().y + m_GameView.getSize().y / 2.0f - converter::metersToPixels(5) - 250
 	});
 
-	m_Ball.setWorldId(m_PhysicsEngine->getWorld());
-	m_SlingShot.setAmmo(m_Ball);
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_int_distribution<uint32_t> dist(0, 255);
+
+	for (int i = 0; i < 3; i++)
+	{
+		auto& ball = m_Balls.emplace_back(std::make_unique<Ball>());
+		ball->init(180.0f, 2, 1, sf::Color(dist(gen), dist(gen), dist(gen)), m_PhysicsEngine->getWorld());
+		ball->setPosition({
+			-converter::metersToPixels(7.0f + i * 2),
+			m_GameView.getCenter().y + m_GameView.getSize().y / 2.0f - converter::metersToPixels(5) - ball->getSprite().getRadius()/2.0f
+		});
+		ball->setWorldBounds(globalBounds);
+	}
+
+	m_SlingShot.setBalls(m_Balls);
 
 	m_LevelManager.loadLevel(1);
 	spawnGround();

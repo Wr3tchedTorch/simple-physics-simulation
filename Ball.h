@@ -24,6 +24,7 @@ private:
 	sf::CircleShape m_Sprite;
 
 	bool m_Traveling = false;
+	bool m_IsActive  = true;
 
 	sf::VertexArray m_TrailVertexArray;
 	int m_CurrentPoint = 0;
@@ -36,14 +37,28 @@ private:
 	sf::Vector2f m_LastTrailPosition;
 	float m_DistanceBetweenTrails = 50;
 
+	sf::FloatRect m_WorldBounds;
+
 	void createBody(float radius, b2Vec2 startingPosition);
 	void createSprite(float radius, sf::Color color);
 	void spawnTrail();
 
 public:
-	Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId);
+	Ball();
+
+	void setWorldBounds(sf::FloatRect worldBounds)
+	{
+		m_WorldBounds = worldBounds;
+	}
+
+	void init(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId);
 
 	void launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse);
+
+	bool isActive()
+	{
+		return m_Traveling;
+	}
 	
 	int getLaunchCount()
 	{
@@ -87,6 +102,7 @@ public:
 
 			m_Traveling = false;
 		}
+		m_IsActive = true;
 	}
 	
 	void sleep()

@@ -5,6 +5,7 @@
 #include <types.h>
 #include <id.h>
 #include "BodyModel.h"
+#include "Converter.h"
 
 void GameEngine::update(float delta)
 {
@@ -29,9 +30,8 @@ void GameEngine::update(float delta)
 		bool isStaticBodyCollision = b2Body_GetType(bodyA) == b2_staticBody ||
 									 b2Body_GetType(bodyB) == b2_staticBody;
 
-
-		bool isBallPresent = B2_ID_EQUALS(m_Ball.getBodyId(), bodyA) ||
-							 B2_ID_EQUALS(m_Ball.getBodyId(), bodyB);
+		bool isBallPresent = m_SlingShot.isBall(bodyA) ||
+							 m_SlingShot.isBall(bodyB);
 
 		if (isStaticBodyCollision && !isBallPresent)
 		{			
@@ -77,12 +77,12 @@ void GameEngine::update(float delta)
 			return;
 		}
 
-		b2BodyId   otherBody = B2_ID_EQUALS(m_Ball.getBodyId(), bodyA) ? bodyB : bodyA;
+		b2BodyId   otherBody = m_SlingShot.isBall(bodyA) ? bodyB : bodyA;
 		BodyModel* model = static_cast<BodyModel*>(b2Body_GetUserData(otherBody));
 
 		if (model->m_Type == "box")
 		{
-			if (m_Ball.applyDamage(model, hitEvent->approachSpeed))
+			if (m_Balls.at(0)->applyDamage(model, hitEvent->approachSpeed))
 			{
 				m_PhysicsEngine->destroyBodyById(otherBody);
 				GameEngine::Score += 100;
@@ -92,15 +92,29 @@ void GameEngine::update(float delta)
 
 	sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window), m_GameView);
 	m_SlingShot.update(mousePosition);
-	m_Ball.update();
 
-	if (m_Ball.getLaunchCount() >= 3)
+	for (auto& ball : m_Balls)
+	{
+		ball->update();
+	}
+
+	if (m_SlingShot.allBallsStopped())
 	{
 		m_LevelManager.nextLevel();
 		GameEngine::Score = 0;
 
-		m_Ball.resetLaunchCount();
-		spawnGround();
+		for (int i = 0; i < m_Balls.size(); i++)
+		{
+			auto& ball = m_Balls[i];
 
+			ball->setPosition({
+				-converter::metersToPixels(7.0f + i * 2),
+				m_GameView.getCenter().y + m_GameView.getSize().y / 2.0f - converter::metersToPixels(5) - ball->getSprite().getRadius() / 2.0f
+			});
+			ball->reset();
+		
+			m_SlingShot.reload();
+		}
+		spawnGround();
 	}
 }

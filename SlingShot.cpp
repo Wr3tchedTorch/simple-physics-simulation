@@ -16,7 +16,6 @@ SlingShot::SlingShot(float maxDragDistance, float maxImpulse, sf::Vector2f start
 {
 	m_MaxImpulse = converter::metersToPixels(maxImpulse);
 	m_MaxDragDistance	= converter::metersToPixels(maxDragDistance);
-	m_CurrentLoadedBall = nullptr;
 	m_StartingBallPosition = startingBallPosition;
  
 	m_SlingshotRect.setPosition(startingBallPosition);
@@ -37,6 +36,11 @@ SlingShot::SlingShot(float maxDragDistance, float maxImpulse, sf::Vector2f start
 
 void SlingShot::leftMouseClick()
 {
+	if (!m_AnyBallsLeft)
+	{
+		return;
+	}
+
 	m_DragMousePosition = m_CurrentMousePosition;
 
 	bool isDragWithinRange = (m_DragMousePosition - m_StartingBallPosition).length() < m_MaxDragDistance;
@@ -44,18 +48,23 @@ void SlingShot::leftMouseClick()
 
 	if (!isDragValid || !isDragWithinRange)
 	{
-		isDragging = false;
+		m_IsDragging = false;
 		return;
 	}
 
 	m_SlingshotRect.setSize({ 0, m_SlingshotRect.getSize().y });
-	isDragging = true;
-	m_CurrentLoadedBall->reset();
-	m_CurrentLoadedBall->setPosition(m_StartingBallPosition);
+	m_IsDragging = true;
+	
+	loadNextBall();	
 }
 
 void SlingShot::leftMouseRelease()
 {
+	if (!m_AnyBallsLeft)
+	{
+		return;
+	}
+
 	bool isDragWithinRange = (m_DragMousePosition - m_StartingBallPosition).length() < m_MaxDragDistance;
 	bool isDragValid = m_DragMousePosition != m_CurrentMousePosition &&
 					   m_CurrentMousePosition.x  < m_DragMousePosition.x &&
@@ -63,7 +72,8 @@ void SlingShot::leftMouseRelease()
 
 	if (!isDragValid || !isDragWithinRange)
 	{
-		isDragging = false;	
+		m_IsDragging = false;	
+		reloadPreviousBall();
 		return;
 	}
 
@@ -77,12 +87,12 @@ void SlingShot::leftMouseRelease()
 
 	b2Vec2 startPos =
 	{
-		converter::pixelsToMeters(m_CurrentLoadedBall->getSprite().getPosition().x),
-		converter::pixelsToMeters(m_CurrentLoadedBall->getSprite().getPosition().y)
+		converter::pixelsToMeters(m_Balls.at(m_CurrentBallIndex)->getSprite().getPosition().x),
+		converter::pixelsToMeters(m_Balls.at(m_CurrentBallIndex)->getSprite().getPosition().y)
 	};
 
-	m_CurrentLoadedBall->launch(startPos, {direction.x, direction.y}, impulse);
-	isDragging = false;
+	m_Balls.at(m_CurrentBallIndex)->launch(startPos, {direction.x, direction.y}, impulse);
+	m_IsDragging = false;
 
 	#ifdef _DEBUG
 	std::cout << std::format("\nLaunching ball: Impulse ({}); Direction (x: {}, y: {}); Distance ({}), Starting Position (x: {}, y: {})", impulse, direction.x, direction.y, distance, m_StartingBallPosition.x, m_StartingBallPosition.y);
@@ -91,13 +101,9 @@ void SlingShot::leftMouseRelease()
 
 void SlingShot::update(sf::Vector2f mousePosition)
 {
-	bool isBallOutOfScreen = m_CurrentLoadedBall->getSprite().getPosition().x - m_CurrentLoadedBall->getSprite().getRadius() / 2.0f > m_GlobalBounds.position.x + m_GlobalBounds.size.x		||
-							 m_CurrentLoadedBall->getSprite().getPosition().x + m_CurrentLoadedBall->getSprite().getRadius() / 2.0f < m_GlobalBounds.position.x ||
-							 m_CurrentLoadedBall->getSprite().getPosition().y - m_CurrentLoadedBall->getSprite().getRadius() / 2.0f > m_GlobalBounds.size.y;
-	if (isBallOutOfScreen)
+	if (!m_AnyBallsLeft)
 	{
-		m_CurrentLoadedBall->reset();
-		m_CurrentLoadedBall->setPosition(m_StartingBallPosition);
+		return;
 	}
 
 	m_CurrentMousePosition = mousePosition;
@@ -107,20 +113,20 @@ void SlingShot::update(sf::Vector2f mousePosition)
 					   m_CurrentMousePosition.x  < m_DragMousePosition.x &&
 					   m_StartingBallPosition.x  > m_DragMousePosition.x - 25;
 
-	if (isDragging && !isDragValid)
+	if (m_IsDragging && !isDragValid)
 	{
-		m_CurrentLoadedBall->reset();
-		m_CurrentLoadedBall->setPosition(m_StartingBallPosition);
+		m_Balls.at(m_CurrentBallIndex)->reset();
+		m_Balls.at(m_CurrentBallIndex)->setPosition(m_StartingBallPosition);
 		m_SlingshotRect.setSize({ 0, m_SlingshotRect.getSize().y });
 	}
 
-	if (isDragging && isDragValid && isDragWithinRange)
+	if (m_IsDragging && isDragValid && isDragWithinRange)
 	{	
 		sf::Vector2f direction = m_CurrentMousePosition - m_DragMousePosition;
 		float distance = std::min(direction.length(), m_MaxDragDistance);
 
 		m_SlingshotRect.setPosition(m_StartingBallPosition);
-		m_CurrentLoadedBall->setPosition(m_StartingBallPosition + direction.normalized() * distance);
+		m_Balls.at(m_CurrentBallIndex)->setPosition(m_StartingBallPosition + direction.normalized() * distance);
 
 		m_SlingshotRect.setRotation(direction.angle());
 		m_SlingshotRect.setSize({
@@ -133,7 +139,7 @@ void SlingShot::update(sf::Vector2f mousePosition)
 void SlingShot::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {	
 	target.draw(m_SlingshotBaseRect);
-	if (!isDragging)
+	if (!m_IsDragging)
 	{
 		return;
 	}

@@ -74,7 +74,10 @@ void GameEngine::draw()
 		m_Window.draw(m_BoxFactory);
 	}
 	m_Window.draw(m_SlingShot);
-	m_Window.draw(m_Ball);
+	for (auto& ball : m_Balls)
+	{
+		m_Window.draw(*ball);
+	}
 
 	m_Window.setView(m_HUDView);
 
@@ -97,7 +100,7 @@ void GameEngine::draw()
 			m_Window,
 			m_HUDView,
 			std::format("Level {}", m_LevelManager.getCurrentLevelIndex()),
-			3 - m_Ball.getLaunchCount()
+			3
 		);
 	}
 

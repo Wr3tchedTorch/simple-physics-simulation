@@ -52,7 +52,7 @@ void Ball::createSprite(float radius, sf::Color color)
 }
 
 void Ball::spawnTrail()
-{	
+{		
 	int size = 5;
 
 	sf::Vertex topLeft;
@@ -98,10 +98,13 @@ void Ball::spawnTrail()
 	m_TrailVertexArray.append(bottomLeft);
 }
 
-Ball::Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId)
+Ball::Ball()
 {
 	m_TrailVertexArray.setPrimitiveType(sf::PrimitiveType::Triangles);
+}
 
+void Ball::init(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId)
+{
 	m_WorldId  = worldId;
 	m_Damage   = damage;
 	m_MaxSpeed = maxSpeed;
@@ -117,10 +120,6 @@ void Ball::launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse)
 	}
 
 	m_LaunchCount++;
-	if ((m_LaunchCount - 1) % 5 == 0)
-	{
-		clearTrail();
-	}
 
 	m_TimeSinceLanch = GameEngine::GameTimeTotal;
 
@@ -134,7 +133,8 @@ void Ball::launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse)
 }
 
 bool Ball::applyDamage(BodyModel* target, float approachSpeed)
-{	const float MIN_SPEED = 4.0f;
+{	
+	const float MIN_SPEED = 4.0f;
 	const float MAX_SPEED = 60.0f;
 	float impactPower = (approachSpeed - MIN_SPEED) / (MAX_SPEED - MIN_SPEED);
 	impactPower = b2ClampFloat(impactPower, 0.0f, 1.0f);
@@ -162,7 +162,7 @@ void Ball::setWorldId(b2WorldId worldId)
 
 void Ball::update()
 {
-	if (!b2Body_IsValid(m_BodyId))
+	if (!m_IsActive || !b2Body_IsValid(m_BodyId))
 	{
 		return;
 	}
@@ -177,6 +177,15 @@ void Ball::update()
 	);
 
 	m_Sprite.setPosition(positionInPixels);
+
+	bool isOutOfBounds = positionInPixels.x - m_Sprite.getRadius() / 2.0f > m_WorldBounds.position.x + m_WorldBounds.size.x ||
+						 positionInPixels.x + m_Sprite.getRadius() / 2.0f < m_WorldBounds.position.x;
+	if (isOutOfBounds)
+	{
+		m_IsActive = false;
+		sleep();
+		return;
+	}
 
 	if ((GameEngine::GameTimeTotal - m_TimeSinceLanch).asSeconds() > m_DelayBeforeTrailBeginsInSeconds &&
 		(m_LastTrailPosition - m_Sprite.getPosition()).length() > m_DistanceBetweenTrails)

@@ -12,14 +12,14 @@ void GameEngine::input()
 	while (auto event = m_Window.pollEvent())
 	{
 		if (event->is<sf::Event::Closed>())
-		{			
+		{
 			m_Window.close();
 		}
 		if (auto mouse = event->getIf<sf::Event::MouseButtonPressed>())
 		{
 			sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window), m_GameView);
 			if (mouse->button == sf::Mouse::Button::Left)
-			{				
+			{
 				m_SlingShot.leftMouseClick();
 			}
 			if (GameEngine::IsEditMode && mouse->button == sf::Mouse::Button::Right)
@@ -36,13 +36,13 @@ void GameEngine::input()
 			}
 		}
 		if (auto keyPressed = event->getIf<sf::Event::KeyPressed>())
-		{			
+		{
 			if (GameEngine::IsEditMode)
 			{
 				if (keyPressed->scancode == sf::Keyboard::Scancode::Grave)
 				{
 					GameEngine::IsEditMode = false;
-					m_PhysicsEngine->resumeSimulation();			
+					m_PhysicsEngine->resumeSimulation();
 				}
 				else if ((m_LastPressedKey == sf::Keyboard::Scancode::LControl || m_LastPressedKey == sf::Keyboard::Scancode::RControl) && keyPressed->scancode == sf::Keyboard::Scancode::S)
 				{
@@ -90,10 +90,10 @@ void GameEngine::input()
 					m_BoxFactory.rotate(sf::degrees(15).asRadians());
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
-				{					
+				{
 					m_BoxFactory.createBox();
 					LevelManager::HasPendingChangesToLevel = true;
-				}	
+				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Tab)
 				{
 					m_PhysicsEngine->switchSimulationState();
@@ -102,7 +102,10 @@ void GameEngine::input()
 				{
 					m_LevelManager.loadLevel(1);
 					GameEngine::Score = 0;
-					m_Ball.clearTrail();
+					for (auto& ball : m_Balls)
+					{
+						ball->clearTrail();
+					}
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
 				}
@@ -110,7 +113,11 @@ void GameEngine::input()
 				{
 					m_LevelManager.loadLevel(2);
 					GameEngine::Score = 0;
-					m_Ball.clearTrail();
+					for (auto& ball : m_Balls)
+					{
+						ball->clearTrail();
+					}
+
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
 				}
@@ -118,7 +125,10 @@ void GameEngine::input()
 				{
 					m_LevelManager.loadLevel(3);
 					GameEngine::Score = 0;
-					m_Ball.clearTrail();
+					for (auto& ball : m_Balls)
+					{
+						ball->clearTrail();
+					}
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
 				}
@@ -126,7 +136,10 @@ void GameEngine::input()
 				{
 					m_LevelManager.loadLevel(4);
 					GameEngine::Score = 0;
-					m_Ball.clearTrail();
+					for (auto& ball : m_Balls)
+					{
+						ball->clearTrail();
+					}
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
 				}
@@ -134,7 +147,10 @@ void GameEngine::input()
 				{
 					m_LevelManager.loadLevel(5);
 					GameEngine::Score = 0;
-					m_Ball.clearTrail();
+					for (auto& ball : m_Balls)
+					{
+						ball->clearTrail();
+					}
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
 				}
@@ -144,11 +160,11 @@ void GameEngine::input()
 				GameEngine::IsEditMode = true;
 				m_PhysicsEngine->stopSimulation();
 			}
-			
+
 			if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
 			{
 				m_Window.close();
-			}			
+			}
 
 			m_LastPressedKey = keyPressed->scancode;
 		}
