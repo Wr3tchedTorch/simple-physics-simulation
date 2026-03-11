@@ -6,8 +6,8 @@
 #include "SlingShot.h"
 #include <memory>
 #include "BoxFactory.h"
-#include "BodyModelSerializer.h"
-#include "BodyModelParser.h"
+#include "LevelManager.h"
+#include <SFML/Window/Keyboard.hpp>
 
 class GameEngine
 {
@@ -19,8 +19,9 @@ private:
 	Ball m_Ball;
 	SlingShot m_SlingShot;
 	BoxFactory m_BoxFactory;
-	BodyModelSerializer m_BodyModelSerializer;
-	BodyModelParser m_BodyModelParser;
+	LevelManager m_LevelManager;
+
+	sf::Keyboard::Scancode m_LastPressedKey;
 
 	void update(float delta);
 	void input();

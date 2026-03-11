@@ -6,6 +6,7 @@
 #include <string.h>
 #include <cstring>
 #include <string>
+#include <math_functions.h>
 
 struct BodyModel
 {
@@ -17,6 +18,9 @@ struct BodyModel
     float m_MaterialDamageMultiplier = 1.0f;
 	float m_Health    = 100.0f;
     float m_MaxHealth = 100.0f;
+
+    b2Vec2 m_StartingPosition;
+    b2Vec2 m_Size;
 };
 
 struct b2BodyIdHash {

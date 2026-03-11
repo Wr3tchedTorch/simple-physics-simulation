@@ -69,6 +69,9 @@
     <ClCompile Include="ObjectSerializationTags.cpp">
       <Filter>Source Files\FileIO</Filter>
     </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files\FileIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files\FileIO</Filter>
     </ClInclude>
     <ClInclude Include="ObjectSerializationTags.h">
+      <Filter>Header Files\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
       <Filter>Header Files\FileIO</Filter>
     </ClInclude>
   </ItemGroup>

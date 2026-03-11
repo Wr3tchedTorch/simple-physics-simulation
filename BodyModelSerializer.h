@@ -1,27 +1,28 @@
 #pragma once
-#include "BodyModel.h"
-#include <math_functions.h>
 #include <string>
 #include "BodyModelBlueprint.h"
+#include <vector>
 
 class BodyModelSerializer
 {
 private:
 	std::string m_FilePath;
-	std::string m_SerializedBodyModels;
+	std::string m_LevelChanges;
 
 public:
-	void setLevelFilepath(const std::string& filepath)
+	void loadLevel(std::string filepath)
 	{
 		m_FilePath = filepath;
 	}
 
-	void discardChanges() 
+	void clearLevel() 
 	{
-		m_SerializedBodyModels = "";
+		m_LevelChanges = "";
 	}
 
 	void serializeModel(BodyModelBlueprint model);
+
+	void serializeWorld(std::vector<BodyModelBlueprint> blueprints);
 	void saveChanges();
 };
 

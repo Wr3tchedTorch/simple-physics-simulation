@@ -23,9 +23,9 @@ private:
 	
 	std::unordered_map<b2BodyId, std::unique_ptr<BodyModel>, b2BodyIdHash, b2BodyIdEqual> m_Bodies;
 
-	void cleanList();
 
 public:
+	void clearWorld();
 	PhysicsEngine();
 
 	void spawnBodyAtLocation(sf::Vector2f location, sf::Vector2f size, sf::Angle rotation, BodyModel model, b2BodyType type = b2_dynamicBody);

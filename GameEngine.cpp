@@ -19,18 +19,14 @@ GameEngine::GameEngine() :
 	m_SlingShot(4, 30, {400, 1080.0f/2.0f}),
 	m_Ball(180.0f, 2, 1, sf::Color::Red, m_PhysicsEngine->getWorld()),
 	m_PhysicsEngine(std::make_shared<PhysicsEngine>()),
-	m_BoxFactory(m_PhysicsEngine)
+	m_BoxFactory(m_PhysicsEngine),
+	m_LevelManager(m_PhysicsEngine)
 {
-	m_BodyModelSerializer.setLevelFilepath("levels/level1.DAT");
-
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
 	Resolution = sf::Vector2f(vm.size);
 	
 	m_Window.create(vm, "Physics Simulation by Eric");
 	m_Window.setFramerateLimit(60);
-
-	sf::Angle angle = sf::degrees(45);
-	b2Rot rot = b2MakeRot(angle.asRadians());
 
 	BodyModel model;
 	model.m_Color = sf::Color::White;

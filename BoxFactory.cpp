@@ -126,14 +126,17 @@ BodyModelBlueprint BoxFactory::createBox()
 
 	b2Rot angle = b2MakeRot(m_Sprite.getRotation().asRadians());
 
-	m_PhysicsEngine->spawnBodyAtLocation(locationInMeters, sizeInMeters, angle, m_BoxTypes[m_CurrentBoxIndex]);
+	BodyModel model = m_BoxTypes[m_CurrentBoxIndex];
+	model.m_StartingPosition = locationInMeters;
+	model.m_Size = sizeInMeters;
+
+	m_PhysicsEngine->spawnBodyAtLocation(locationInMeters, sizeInMeters, angle, model);
 
 	BodyModelBlueprint modelBlueprint;
 	modelBlueprint.m_Color = m_BoxTypes[m_CurrentBoxIndex].m_Color;
 	modelBlueprint.m_Type  = m_BoxTypes[m_CurrentBoxIndex].m_Type;
 	modelBlueprint.m_MaxHealth = m_BoxTypes[m_CurrentBoxIndex].m_MaxHealth;
 	modelBlueprint.m_MaterialDamageMultiplier = m_BoxTypes[m_CurrentBoxIndex].m_MaterialDamageMultiplier;
-
 	modelBlueprint.m_Position = locationInMeters;
 	modelBlueprint.m_Size = sizeInMeters;
 
@@ -144,4 +147,5 @@ void BoxFactory::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_Sprite, states);
 }
+
 

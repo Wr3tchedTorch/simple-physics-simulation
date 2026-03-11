@@ -10,9 +10,9 @@
 
 void BodyModelParser::loadLevel(int level)
 {
-	m_CurrentLevel++;
 	std::ifstream inputFile(std::format("levels/level{}.DAT", level));	
 
+	m_Blueprints.clear();
 	if (inputFile.is_open())
 	{
 		std::string line;			
@@ -115,6 +115,4 @@ void BodyModelParser::loadLevel(int level)
 			}
 		}
 	}
-
-	m_CurrentLevel = level;
 }

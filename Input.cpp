@@ -41,7 +41,11 @@ void GameEngine::input()
 		{
 			if (GameEngine::IsEditMode)
 			{
-				if (keyPressed->scancode == sf::Keyboard::Scancode::N)
+				if (m_LastPressedKey == sf::Keyboard::Scancode::LControl && keyPressed->scancode == sf::Keyboard::Scancode::S)
+				{
+					m_LevelManager.saveChangesToLevel();
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::N)
 				{
 					m_BoxFactory.nextBoxType();
 				}
@@ -79,40 +83,35 @@ void GameEngine::input()
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::R)
 				{
-					m_BoxFactory.rotate(sf::degrees(90).asRadians());
+					m_BoxFactory.rotate(sf::degrees(45).asRadians());
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
 				{					
-					m_BodyModelSerializer.serializeModel(m_BoxFactory.createBox());
-					m_BodyModelSerializer.saveChanges();
-				}
-				else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
-				{
-					// save current level
-				}				
+					m_BoxFactory.createBox();
+				}	
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Tab)
 				{
 					m_PhysicsEngine->switchSimulationState();
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num1)
 				{
-					m_BodyModelParser.loadLevel(1);
+					m_LevelManager.loadLevel(1);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num2)
 				{
-					m_BodyModelParser.loadLevel(2);
+					m_LevelManager.loadLevel(2);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num3)
 				{
-					m_BodyModelParser.loadLevel(3);
+					m_LevelManager.loadLevel(3);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num4)
 				{
-					m_BodyModelParser.loadLevel(4);
+					m_LevelManager.loadLevel(4);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num5)
 				{
-					m_BodyModelParser.loadLevel(5);
+					m_LevelManager.loadLevel(5);
 				}
 			}
 			
@@ -130,6 +129,7 @@ void GameEngine::input()
 				GameEngine::IsEditMode = true;
 				m_PhysicsEngine->stopSimulation();
 			}
+			m_LastPressedKey = keyPressed->scancode;
 		}
 
 	}

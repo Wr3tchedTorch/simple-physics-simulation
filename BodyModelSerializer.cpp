@@ -37,7 +37,15 @@ void BodyModelSerializer::serializeModel(BodyModelBlueprint model)
 
 	serializedModel += ObjectSerializationTags::END_OBJECT;
 
-	m_SerializedBodyModels += serializedModel + "\n\n";
+	m_LevelChanges += serializedModel + "\n\n";
+}
+
+void BodyModelSerializer::serializeWorld(std::vector<BodyModelBlueprint> blueprints)
+{
+	for (auto& blueprint : blueprints)
+	{
+		serializeModel(blueprint);
+	}
 }
 
 void BodyModelSerializer::saveChanges()
@@ -46,7 +54,7 @@ void BodyModelSerializer::saveChanges()
 
 	if (outputFile.is_open())	
 	{
-		outputFile << m_SerializedBodyModels;
+		outputFile << m_LevelChanges;
 
 		outputFile.close();
 	}
