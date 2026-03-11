@@ -10,11 +10,14 @@
 #include "BodyModel.h"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <format>
+#include "LevelManager.h"
 
 void GameEngine::draw()
 {
 	m_Window.clear();
 
+	m_Window.setView(m_GameView);
 	m_PhysicsEngine->forEachBody([this](b2BodyId id, const BodyModel& body) -> void
 		{
 			if (!b2Body_IsValid(id))
@@ -72,6 +75,30 @@ void GameEngine::draw()
 	}
 	m_Window.draw(m_SlingShot);
 	m_Window.draw(m_Ball);
+
+	m_Window.setView(m_HUDView);
+
+	if (IsEditMode)
+	{
+		m_HUD.drawEditorModeHUD(
+			m_Window,
+			m_HUDView,
+			m_GameView,
+			m_BoxFactory.getBoxMaterialName(),
+			m_BoxFactory.getBoxRotationRadians(),
+			m_BoxFactory.getBoxRect(),
+			std::format("Level {}", m_LevelManager.getCurrentLevelIndex()),
+			LevelManager::HasPendingChangesToLevel
+		);
+	}
+	else
+	{
+		m_HUD.drawGameHUD(
+			m_Window,
+			m_HUDView,
+			std::format("Level {}", m_LevelManager.getCurrentLevelIndex())
+		);
+	}
 
 	m_Window.display();
 }

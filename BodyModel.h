@@ -11,6 +11,7 @@
 struct BodyModel
 {
     std::string m_Type;
+    std::string m_MaterialName;
 
 	b2BodyId  m_Id;
 	sf::Color m_Color;

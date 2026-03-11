@@ -5,6 +5,8 @@
 #include <id.h>
 #include "BodyModelBlueprint.h"
 
+bool LevelManager::HasPendingChangesToLevel = false;
+
 void LevelManager::nextLevel()
 {
 	loadLevel(m_CurrentLevel);

@@ -10,6 +10,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Time.hpp>
+#include "HUD.h"
 
 class GameEngine
 {
@@ -22,6 +23,7 @@ private:
 	SlingShot m_SlingShot;
 	BoxFactory m_BoxFactory;
 	LevelManager m_LevelManager;
+	HUD m_HUD;
 
 	sf::View m_GameView;
 	sf::View m_HUDView;
@@ -35,7 +37,8 @@ private:
 public:
 	static sf::Time GameTimeTotal;
 	static bool IsEditMode;
-	static sf::Vector2f	Resolution;
+	static sf::Vector2f	Resolution;	
+	static int Score;
 
 	GameEngine();
 

@@ -23,18 +23,21 @@ BoxFactory::BoxFactory(std::shared_ptr<PhysicsEngine> physicsEngine)
 	m_PhysicsEngine = physicsEngine;
 
 	m_BoxTypes.emplace_back(BodyModel{
+		.m_MaterialName = "gelo",
 		.m_Color  = sf::Color(171, 253, 255, 125),
 		.m_MaterialDamageMultiplier = 4.0f,
 		.m_Health = 75,
 		.m_MaxHealth = 75
 	});
 	m_BoxTypes.emplace_back(BodyModel{
+		.m_MaterialName = "madeira",
 		.m_Color = sf::Color(204, 153, 102),
 		.m_MaterialDamageMultiplier = 1.5f,
 		.m_Health = 225,
 		.m_MaxHealth = 225
 	});
 	m_BoxTypes.emplace_back(BodyModel{
+		.m_MaterialName = "pedra",
 		.m_Color = sf::Color(138, 138, 138),
 		.m_MaterialDamageMultiplier = 1.0f,
 		.m_Health = 375,

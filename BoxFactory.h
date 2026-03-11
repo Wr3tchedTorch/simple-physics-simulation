@@ -8,6 +8,8 @@
 #include "BodyModelBlueprint.h"
 #include "PhysicsEngine.h"
 #include <SFML/Graphics/Rect.hpp>
+#include <string>
+#include <SFML/Graphics/Transform.hpp>
 
 #pragma once
 class BoxFactory : public sf::Drawable
@@ -27,6 +29,29 @@ public:
 	void setGlobalBounds(sf::FloatRect worldBounds)
 	{
 		m_WorldBounds = worldBounds;
+	}
+
+	float getBoxRotationRadians()
+	{
+		return m_Sprite.getRotation().asRadians();
+	}
+
+	sf::FloatRect getBoxRect()
+	{
+		return {
+			m_Sprite.getPosition(),
+			m_Sprite.getSize()
+		};
+	}
+
+	sf::Transform getBoxTransform()
+	{
+		return m_Sprite.getTransform();
+	}
+
+	std::string getBoxMaterialName()
+	{
+		return m_BoxTypes[m_CurrentBoxIndex].m_MaterialName;
 	}
 
 	void nextBoxType();

@@ -18,9 +18,16 @@ private:
 	int m_CurrentLevel = 1;
 
 public:
+	static bool HasPendingChangesToLevel;
+
 	LevelManager(std::shared_ptr<PhysicsEngine> physicsEngine)
 	{
 		m_PhysicsEngine = physicsEngine;
+	}
+
+	int getCurrentLevelIndex()
+	{
+		return m_CurrentLevel;
 	}
 
 	void nextLevel();

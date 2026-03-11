@@ -41,6 +41,7 @@ void BodyModelSerializer::serializeModel(BodyModelBlueprint model)
 	serializedModel += ObjectSerializationTags::END_OBJECT;
 
 	m_LevelChanges += serializedModel + "\n\n";
+	m_ChangesSaved = false;
 }
 
 void BodyModelSerializer::serializeWorld(std::vector<BodyModelBlueprint> blueprints)
@@ -49,6 +50,7 @@ void BodyModelSerializer::serializeWorld(std::vector<BodyModelBlueprint> bluepri
 	{
 		serializeModel(blueprint);
 	}
+	m_ChangesSaved = false;
 }
 
 void BodyModelSerializer::saveChanges()
@@ -61,4 +63,5 @@ void BodyModelSerializer::saveChanges()
 
 		outputFile.close();
 	}
+	m_ChangesSaved = true;
 }

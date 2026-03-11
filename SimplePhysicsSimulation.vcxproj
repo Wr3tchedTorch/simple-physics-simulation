@@ -139,6 +139,7 @@
     <ClCompile Include="BoxFactory.cpp" />
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="BoxFactory.h" />
     <ClInclude Include="Converter.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="ObjectSerializationTags.h" />
     <ClInclude Include="PhysicsEngine.h" />
