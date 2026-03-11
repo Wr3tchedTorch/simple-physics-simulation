@@ -13,4 +13,5 @@ struct BodyModelBlueprint
 
 	b2Vec2 m_Position;
 	b2Vec2 m_Size;
+	b2Rot m_Rotation;
 };

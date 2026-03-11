@@ -14,6 +14,9 @@ public:
 	
 	static const std::string START_SIZE;
 	static const std::string END_SIZE;
+
+	static const std::string START_ROTATION;
+	static const std::string END_ROTATION;
 	
 	static const std::string START_MAX_HEALTH;
 	static const std::string END_MAX_HEALTH;

@@ -73,6 +73,15 @@ void BodyModelParser::loadLevel(int level)
 				continue;
 			}
 
+			if (line.find(ObjectSerializationTags::START_ROTATION) != line.npos)
+			{
+				int endPos = line.size() - ObjectSerializationTags::END_ROTATION.size() - ObjectSerializationTags::START_ROTATION.size();
+				std::string type = line.substr(ObjectSerializationTags::START_ROTATION.size(), endPos);
+
+				model.m_Rotation = b2MakeRot(std::stof(type));
+				continue;
+			}
+
 			if (line.find(ObjectSerializationTags::START_MAX_HEALTH) != line.npos)
 			{
 				int endPos = line.size() - ObjectSerializationTags::END_MAX_HEALTH.size() - ObjectSerializationTags::START_MAX_HEALTH.size();

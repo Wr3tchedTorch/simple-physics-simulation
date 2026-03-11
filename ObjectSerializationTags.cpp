@@ -12,6 +12,9 @@ const std::string ObjectSerializationTags::END_POSITION	  = "[-END_POSITION]";
 const std::string ObjectSerializationTags::START_SIZE = "[START_SIZE]";
 const std::string ObjectSerializationTags::END_SIZE	  = "[-END_SIZE]";
 
+const std::string ObjectSerializationTags::START_ROTATION = "[START_ROTATION]";
+const std::string ObjectSerializationTags::END_ROTATION = "[-END_ROTATION]";
+
 const std::string ObjectSerializationTags::START_MAX_HEALTH = "[START_MAX_HEALTH]";
 const std::string ObjectSerializationTags::END_MAX_HEALTH   = "[-END_MAX_HEALTH]";
 

@@ -1,12 +1,11 @@
 #include "BodyModelSerializer.h"
 #include <fstream>
-#include "BodyModel.h"
 #include <string>
 #include "ObjectSerializationTags.h"
 #include <format>
 #include <math_functions.h>
-#include <box2d.h>
 #include "BodyModelBlueprint.h"
+#include <vector>
 
 void BodyModelSerializer::serializeModel(BodyModelBlueprint model)
 {	
@@ -22,6 +21,10 @@ void BodyModelSerializer::serializeModel(BodyModelBlueprint model)
 	serializedModel += ObjectSerializationTags::START_SIZE +
 							sizeSerialized +
 						ObjectSerializationTags::END_SIZE + "\n";
+
+	serializedModel += ObjectSerializationTags::START_ROTATION +
+							std::to_string(b2Rot_GetAngle(model.m_Rotation)) +
+						ObjectSerializationTags::END_ROTATION + "\n";
 
 	serializedModel += ObjectSerializationTags::START_MAX_HEALTH +
 							std::to_string(model.m_MaxHealth) +

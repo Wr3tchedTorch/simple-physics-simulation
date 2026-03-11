@@ -129,6 +129,8 @@ BodyModelBlueprint BoxFactory::createBox()
 	BodyModel model = m_BoxTypes[m_CurrentBoxIndex];
 	model.m_StartingPosition = locationInMeters;
 	model.m_Size = sizeInMeters;
+	model.m_StartingRotation = angle;
+	model.m_Type = "box";
 
 	m_PhysicsEngine->spawnBodyAtLocation(locationInMeters, sizeInMeters, angle, model);
 
@@ -138,7 +140,8 @@ BodyModelBlueprint BoxFactory::createBox()
 	modelBlueprint.m_MaxHealth = m_BoxTypes[m_CurrentBoxIndex].m_MaxHealth;
 	modelBlueprint.m_MaterialDamageMultiplier = m_BoxTypes[m_CurrentBoxIndex].m_MaterialDamageMultiplier;
 	modelBlueprint.m_Position = locationInMeters;
-	modelBlueprint.m_Size = sizeInMeters;
+	modelBlueprint.m_Size     = sizeInMeters;
+	modelBlueprint.m_Rotation = angle;
 
 	return modelBlueprint;
 }
@@ -147,5 +150,6 @@ void BoxFactory::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(m_Sprite, states);
 }
+
 
 

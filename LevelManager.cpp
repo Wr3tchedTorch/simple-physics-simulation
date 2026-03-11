@@ -22,12 +22,18 @@ void LevelManager::saveChangesToLevel()
 
 	m_PhysicsEngine->forEachBody([this](b2BodyId id, const BodyModel& body) -> void
 		{
+			if (body.m_Type != "box")
+			{
+				return;
+			}
+
 			BodyModelBlueprint blueprint;
 			blueprint.m_Color = body.m_Color;
 			blueprint.m_Type = body.m_Type;
 			blueprint.m_MaxHealth = body.m_MaxHealth;
 			blueprint.m_MaterialDamageMultiplier = body.m_MaterialDamageMultiplier;
 			blueprint.m_Position = body.m_StartingPosition;
+			blueprint.m_Rotation = body.m_StartingRotation;
 			blueprint.m_Size = body.m_Size;
 
 			m_BodyModelSerializer.serializeModel(blueprint);
@@ -57,7 +63,8 @@ void LevelManager::loadLevel(int index)
 		model.m_MaterialDamageMultiplier = body.m_MaterialDamageMultiplier;
 		model.m_StartingPosition = body.m_Position;
 		model.m_Size = body.m_Size;
+		model.m_StartingRotation = body.m_Rotation;
 
-		m_PhysicsEngine->spawnBodyAtLocation(body.m_Position, body.m_Size, b2Rot_identity, model);
+		m_PhysicsEngine->spawnBodyAtLocation(body.m_Position, body.m_Size, body.m_Rotation, model);
 	}
 }

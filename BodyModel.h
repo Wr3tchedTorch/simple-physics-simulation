@@ -10,7 +10,7 @@
 
 struct BodyModel
 {
-    std::string m_Type = "box";
+    std::string m_Type;
 
 	b2BodyId  m_Id;
 	sf::Color m_Color;
@@ -21,6 +21,7 @@ struct BodyModel
 
     b2Vec2 m_StartingPosition;
     b2Vec2 m_Size;
+    b2Rot  m_StartingRotation;
 };
 
 struct b2BodyIdHash {
