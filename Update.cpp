@@ -44,6 +44,7 @@ void GameEngine::update(float delta)
 			if (model->m_Health <= 0)
 			{
 				m_PhysicsEngine->destroyBodyById(box);
+				GameEngine::Score += 100;
 			}
 
 			return;
@@ -60,10 +61,12 @@ void GameEngine::update(float delta)
 			if (modelA->m_Health <= 0)
 			{
 				m_PhysicsEngine->destroyBodyById(bodyA);
+				GameEngine::Score += 100;
 			}
 			if (modelB->m_Health <= 0)
 			{
 				m_PhysicsEngine->destroyBodyById(bodyB);
+				GameEngine::Score += 100;
 			}
 
 			return;
@@ -75,13 +78,14 @@ void GameEngine::update(float delta)
 		}
 
 		b2BodyId   otherBody = B2_ID_EQUALS(m_Ball.getBodyId(), bodyA) ? bodyB : bodyA;
-		BodyModel* model	 = static_cast<BodyModel*>(b2Body_GetUserData(otherBody));
+		BodyModel* model = static_cast<BodyModel*>(b2Body_GetUserData(otherBody));
 
 		if (model->m_Type == "box")
 		{
 			if (m_Ball.applyDamage(model, hitEvent->approachSpeed))
 			{
 				m_PhysicsEngine->destroyBodyById(otherBody);
+				GameEngine::Score += 100;
 			}
 		}
 	}
@@ -89,4 +93,14 @@ void GameEngine::update(float delta)
 	sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window), m_GameView);
 	m_SlingShot.update(mousePosition);
 	m_Ball.update();
+
+	if (m_Ball.getLaunchCount() >= 3)
+	{
+		m_LevelManager.nextLevel();
+		GameEngine::Score = 0;
+
+		m_Ball.resetLaunchCount();
+		spawnGround();
+
+	}
 }

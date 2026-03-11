@@ -24,11 +24,13 @@ HUD::HUD(sf::Font titleFont, sf::Font textFont) :
 	m_TextControls(m_MainFont),
 	m_TitleControls(m_MainFont),
 	m_TitleBoxProperties(m_MainFont),
-	m_TextScore(m_MainFont)
+	m_TextScore(m_MainFont),
+	m_TextNumberOfTries(m_MainFont)
 {	
 	m_TitleScreen.setCharacterSize(60);
 	
 	m_TextScore.setCharacterSize(30);
+	m_TextNumberOfTries.setCharacterSize(30);
 
 	m_TextBoxSizeX.setCharacterSize(20);
 	m_TextBoxSizeY.setCharacterSize(20);
@@ -45,7 +47,7 @@ HUD::HUD(sf::Font titleFont, sf::Font textFont) :
 	m_TitleControls.setCharacterSize(30);
 }
 
-void HUD::drawGameHUD(sf::RenderTarget& target, sf::View& hudView, std::string currentLoadedLevel)
+void HUD::drawGameHUD(sf::RenderTarget& target, sf::View& hudView, std::string currentLoadedLevel, int currentNumberOfTries)
 {
 	m_TitleScreen.setString(currentLoadedLevel);
 	m_TitleScreen.setPosition(
@@ -57,11 +59,18 @@ void HUD::drawGameHUD(sf::RenderTarget& target, sf::View& hudView, std::string c
 	m_TextScore.setString(std::format("Score: {}", GameEngine::Score));
 	m_TextScore.setPosition({
 		hudView.getCenter().x - hudView.getSize().x / 2.0f,
-		m_TextScore.getLocalBounds().size.y + PADDING + 40
+		m_TextScore.getLocalBounds().size.y + m_PADDING + 40
+		});
+
+	m_TextNumberOfTries.setString(std::format("Tentativas: {}", currentNumberOfTries));
+	m_TextNumberOfTries.setPosition({
+		m_TextScore.getPosition().x + m_TextScore.getLocalBounds().size.x + m_PADDING*5,
+		m_TextScore.getPosition().y
 		});
 
 	target.draw(m_TitleScreen);
 	target.draw(m_TextScore);
+	target.draw(m_TextNumberOfTries);
 }
 
 void HUD::drawEditorModeHUD(
@@ -87,7 +96,7 @@ void HUD::drawEditorModeHUD(
 	m_TextCurrentLoadedLevel.setString(currentLoadedLevel);
 	m_TextCurrentLoadedLevel.setPosition(
 		{
-			viewCenter.x + viewSize.x/2.0f - m_TextCurrentLoadedLevel.getLocalBounds().size.x - PADDING,
+			viewCenter.x + viewSize.x/2.0f - m_TextCurrentLoadedLevel.getLocalBounds().size.x - m_PADDING,
 			40
 		});
 
@@ -102,7 +111,7 @@ void HUD::drawEditorModeHUD(
 	m_TextPendingChanges.setString(hasPendingChanges ? "Existem alteracoes pendentes" : "Mudancas salvas");
 	m_TextPendingChanges.setPosition(
 		{
-			viewCenter.x + viewSize.x / 2.0f - m_TextPendingChanges.getLocalBounds().size.x - PADDING,
+			viewCenter.x + viewSize.x / 2.0f - m_TextPendingChanges.getLocalBounds().size.x - m_PADDING,
 			40 + m_TextCurrentLoadedLevel.getLocalBounds().size.y + m_TextPendingChanges.getLocalBounds().size.y
 		}
 	);
@@ -120,7 +129,7 @@ Iniciar Jogo: Espaco
 	);
 	m_TextControls.setPosition(
 		{
-			viewCenter.x - viewSize.x / 2.0f + PADDING,
+			viewCenter.x - viewSize.x / 2.0f + m_PADDING,
 			viewCenter.y - m_TextControls.getLocalBounds().size.y / 2.0f
 		}
 	);
@@ -136,31 +145,31 @@ Iniciar Jogo: Espaco
 	m_TitleBoxProperties.setString("Propriedades da caixa:");
 	m_TitleBoxProperties.setPosition({
 		viewCenter.x - viewSize.x / 2.0f,
-		m_TitleBoxProperties.getLocalBounds().size.y + PADDING
+		m_TitleBoxProperties.getLocalBounds().size.y + m_PADDING
 		});
 
 	m_TextBoxSelectedMaterial.setString(std::format("Material: {}", boxSelectedMaterial));
 	m_TextBoxSelectedMaterial.setPosition({
-		viewCenter.x - viewSize.x / 2.0f + PADDING,
+		viewCenter.x - viewSize.x / 2.0f + m_PADDING,
 		m_TextBoxSelectedMaterial.getLocalBounds().size.y +
 			m_TitleBoxProperties.getLocalBounds().size.y * 2
 		});
 
 	m_TextBoxRotation.setString(std::format("Rotacao (Graus): {:.0f}", sf::radians(rotationRadians).asDegrees()));
 	m_TextBoxRotation.setPosition({
-		viewCenter.x - viewSize.x / 2.0f + PADDING,
+		viewCenter.x - viewSize.x / 2.0f + m_PADDING,
 		m_TextBoxRotation.getLocalBounds().size.y + m_TextBoxSelectedMaterial.getPosition().y
 		});
 
 	m_TextBoxSizeX.setString(std::format("Largura (m): {:.2g}", converter::pixelsToMeters(boxRect.size.x)));
 	m_TextBoxSizeX.setPosition({
-		viewCenter.x - viewSize.x / 2.0f + PADDING,
+		viewCenter.x - viewSize.x / 2.0f + m_PADDING,
 		m_TextBoxSizeX.getLocalBounds().size.y + m_TextBoxRotation.getPosition().y
 		});
 
 	m_TextBoxSizeY.setString(std::format("Altura (m): {:.2g}", converter::pixelsToMeters(boxRect.size.y)));
 	m_TextBoxSizeY.setPosition({
-		viewCenter.x - viewSize.x / 2.0f + PADDING,
+		viewCenter.x - viewSize.x / 2.0f + m_PADDING,
 		m_TextBoxSizeY.getLocalBounds().size.y + m_TextBoxSizeX.getPosition().y
 		});
 

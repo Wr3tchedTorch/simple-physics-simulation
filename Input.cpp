@@ -101,6 +101,7 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num1)
 				{
 					m_LevelManager.loadLevel(1);
+					GameEngine::Score = 0;
 					m_Ball.clearTrail();
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
@@ -108,6 +109,7 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num2)
 				{
 					m_LevelManager.loadLevel(2);
+					GameEngine::Score = 0;
 					m_Ball.clearTrail();
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
@@ -115,6 +117,7 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num3)
 				{
 					m_LevelManager.loadLevel(3);
+					GameEngine::Score = 0;
 					m_Ball.clearTrail();
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
@@ -122,6 +125,7 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num4)
 				{
 					m_LevelManager.loadLevel(4);
+					GameEngine::Score = 0;
 					m_Ball.clearTrail();
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;
@@ -129,6 +133,7 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num5)
 				{
 					m_LevelManager.loadLevel(5);
+					GameEngine::Score = 0;
 					m_Ball.clearTrail();
 					spawnGround();
 					LevelManager::HasPendingChangesToLevel = false;

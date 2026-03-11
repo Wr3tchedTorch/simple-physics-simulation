@@ -9,7 +9,7 @@
 class HUD
 {
 private:	
-	const int PADDING = 10;
+	const int m_PADDING = 10;
 
 	sf::Font m_MainFont;
 	sf::Font m_TitleFont;
@@ -18,6 +18,7 @@ private:
 
 	// Game Mode
 	sf::Text m_TextScore;
+	sf::Text m_TextNumberOfTries;
 
 	// Editor Mode
 	sf::Text m_TitleControls;
@@ -34,7 +35,7 @@ private:
 public:
 	HUD(sf::Font titleFont, sf::Font textFont);
 
-	void drawGameHUD(sf::RenderTarget& target, sf::View& hudView, std::string currentLoadedLevel);
+	void drawGameHUD(sf::RenderTarget& target, sf::View& hudView, std::string currentLoadedLevel, int currentNumberOfTries);
 
 	void drawEditorModeHUD(
 		sf::RenderTarget& target,

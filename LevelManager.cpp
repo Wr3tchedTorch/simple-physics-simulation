@@ -9,13 +9,14 @@ bool LevelManager::HasPendingChangesToLevel = false;
 
 void LevelManager::nextLevel()
 {
-	loadLevel(m_CurrentLevel);
-
 	m_CurrentLevel++;
+
 	if (m_CurrentLevel > LevelManager::LEVEL_COUNT)
 	{
 		m_CurrentLevel = 1;
 	}
+
+	loadLevel(m_CurrentLevel);
 }
 
 void LevelManager::saveChangesToLevel()

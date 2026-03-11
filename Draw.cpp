@@ -96,7 +96,8 @@ void GameEngine::draw()
 		m_HUD.drawGameHUD(
 			m_Window,
 			m_HUDView,
-			std::format("Level {}", m_LevelManager.getCurrentLevelIndex())
+			std::format("Level {}", m_LevelManager.getCurrentLevelIndex()),
+			3 - m_Ball.getLaunchCount()
 		);
 	}
 

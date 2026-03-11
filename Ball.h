@@ -44,6 +44,16 @@ public:
 	Ball(float damage, float maxSpeed, float radius, sf::Color color, b2WorldId worldId);
 
 	void launch(b2Vec2 startingPos, b2Vec2 normalizedDirection, float impulse);
+	
+	int getLaunchCount()
+	{
+		return m_LaunchCount;
+	}
+
+	void resetLaunchCount()
+	{
+		m_LaunchCount = 0;
+	}
 
 	void clearTrail()
 	{
