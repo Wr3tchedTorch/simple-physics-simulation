@@ -8,14 +8,11 @@
 #include <id.h>
 #include <iostream>
 #include <format>
-#include <vector>
 #include <SFML/System/Angle.hpp>
 #include "BodyModel.h"
 #include <utility>
 #include <memory>
 #include <unordered_map>
-#include <SFML/Graphics/Color.hpp>
-#include "GameEngine.h"
 
 void PhysicsEngine::clearWorld()
 {
@@ -24,20 +21,6 @@ void PhysicsEngine::clearWorld()
 		b2DestroyBody(id);
 	}
 	m_Bodies.clear();
-
-	BodyModel model;
-	model.m_Color = sf::Color::White;
-
-	spawnBodyAtLocation(
-		{
-		converter::pixelsToMeters(GameEngine::Resolution.x) / 2.0f,
-		converter::pixelsToMeters(GameEngine::Resolution.y) / 1.25f + 2.5f
-		},
-		{
-			converter::pixelsToMeters(GameEngine::Resolution.x),
-			5
-		},
-		b2Rot_identity, model, b2_staticBody);
 }
 
 PhysicsEngine::PhysicsEngine()

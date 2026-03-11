@@ -10,6 +10,7 @@
 #include "BodyModel.h"
 #include "GameEngine.h"
 #include "BodyModelBlueprint.h"
+#include <SFML/Graphics/Rect.hpp>
 
 BoxFactory::BoxFactory(std::shared_ptr<PhysicsEngine> physicsEngine)
 {	
@@ -22,8 +23,8 @@ BoxFactory::BoxFactory(std::shared_ptr<PhysicsEngine> physicsEngine)
 	m_PhysicsEngine = physicsEngine;
 
 	m_BoxTypes.emplace_back(BodyModel{
-		.m_Color  = sf::Color(171, 253, 255),
-		.m_MaterialDamageMultiplier = 3.0f,
+		.m_Color  = sf::Color(171, 253, 255, 125),
+		.m_MaterialDamageMultiplier = 4.0f,
 		.m_Health = 75,
 		.m_MaxHealth = 75
 	});
@@ -85,8 +86,8 @@ void BoxFactory::increaseSizeY(float amount)
 
 void BoxFactory::moveX(float amount)
 {
-	if (m_Sprite.getPosition().x + amount < 0 ||
-		m_Sprite.getPosition().x + amount > GameEngine::Resolution.x)
+	if (m_Sprite.getPosition().x + amount < m_WorldBounds.position.x + m_Sprite.getSize().x/2.0f ||
+		m_Sprite.getPosition().x + amount > m_WorldBounds.position.x + m_WorldBounds.size.x - m_Sprite.getSize().x / 2.0f)
 	{
 		return;
 	}
@@ -96,8 +97,8 @@ void BoxFactory::moveX(float amount)
 
 void BoxFactory::moveY(float amount)
 {
-	if (m_Sprite.getPosition().y + amount < 0 ||
-		m_Sprite.getPosition().y + amount > GameEngine::Resolution.y)
+	if (m_Sprite.getPosition().y + amount < m_WorldBounds.position.y + m_Sprite.getSize().y / 2.0f ||
+		m_Sprite.getPosition().y + amount > m_WorldBounds.position.y + m_WorldBounds.size.y - m_Sprite.getSize().y / 2.0f)
 	{
 		return;
 	}

@@ -20,14 +20,14 @@ SlingShot::SlingShot(float maxDragDistance, float maxImpulse, sf::Vector2f start
 	m_StartingBallPosition = startingBallPosition;
  
 	m_SlingshotRect.setPosition(startingBallPosition);
-	m_SlingshotRect.setSize({ 0, converter::metersToPixels(.5f) });
-	m_SlingshotRect.setOrigin({ 0, m_SlingshotRect.getSize().y/2.0f });
+	m_SlingshotRect.setSize({ 0, converter::metersToPixels(.25f) });
+	m_SlingshotRect.setOrigin({ 0, m_SlingshotRect.getSize().y/2.0f });	
 
 	m_SlingshotBaseRect.setPosition(startingBallPosition);
 	m_SlingshotBaseRect.setSize(
 		{ 
 			converter::metersToPixels(1),  
-			350
+			250
 		}
 	);
 	m_SlingshotBaseRect.setFillColor(sf::Color(153, 102, 51));
@@ -90,9 +90,9 @@ void SlingShot::leftMouseRelease()
 
 void SlingShot::update(sf::Vector2f mousePosition)
 {
-	bool isBallOutOfScreen = m_CurrentLoadedBall->getSprite().getPosition().x > GameEngine::Resolution.x + 100 ||
-							 m_CurrentLoadedBall->getSprite().getPosition().x < 0 - 100 ||
-							 m_CurrentLoadedBall->getSprite().getPosition().y > GameEngine::Resolution.y + 100;
+	bool isBallOutOfScreen = m_CurrentLoadedBall->getSprite().getPosition().x - m_CurrentLoadedBall->getSprite().getRadius() / 2.0f > m_GlobalBounds.position.x + m_GlobalBounds.size.x		||
+							 m_CurrentLoadedBall->getSprite().getPosition().x + m_CurrentLoadedBall->getSprite().getRadius() / 2.0f < m_GlobalBounds.position.x ||
+							 m_CurrentLoadedBall->getSprite().getPosition().y - m_CurrentLoadedBall->getSprite().getRadius() / 2.0f > m_GlobalBounds.size.y;
 	if (isBallOutOfScreen)
 	{
 		m_CurrentLoadedBall->reset();
@@ -103,8 +103,15 @@ void SlingShot::update(sf::Vector2f mousePosition)
 	
 	bool isDragWithinRange = (m_DragMousePosition - m_StartingBallPosition).length() < m_MaxDragDistance;
 	bool isDragValid = m_DragMousePosition != m_CurrentMousePosition &&
-		m_CurrentMousePosition.x  < m_DragMousePosition.x &&
-		m_StartingBallPosition.x  > m_DragMousePosition.x - 25;
+					   m_CurrentMousePosition.x  < m_DragMousePosition.x &&
+					   m_StartingBallPosition.x  > m_DragMousePosition.x - 25;
+
+	if (isDragging && !isDragValid)
+	{
+		m_CurrentLoadedBall->reset();
+		m_CurrentLoadedBall->setPosition(m_StartingBallPosition);
+		m_SlingshotRect.setSize({ 0, m_SlingshotRect.getSize().y });
+	}
 
 	if (isDragging && isDragValid && isDragWithinRange)
 	{	

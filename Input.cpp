@@ -2,12 +2,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
-#include <math_functions.h>
-#include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Angle.hpp>
-#include "Converter.h"
-#include "BodyModel.h"
-#include <random>
 #include <SFML/Window/Keyboard.hpp>
 
 void GameEngine::input()
@@ -20,7 +15,7 @@ void GameEngine::input()
 		}
 		if (auto mouse = event->getIf<sf::Event::MouseButtonPressed>())
 		{
-			sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window));
+			sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window), m_GameView);
 			if (mouse->button == sf::Mouse::Button::Left)
 			{				
 				m_SlingShot.leftMouseClick();
@@ -67,23 +62,23 @@ void GameEngine::input()
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::D)
 				{
-					m_BoxFactory.moveX(20);
+					m_BoxFactory.moveX(10);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::A)
 				{
-					m_BoxFactory.moveX(-20);
+					m_BoxFactory.moveX(-10);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
 				{
-					m_BoxFactory.moveY(20);
+					m_BoxFactory.moveY(10);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::W)
 				{
-					m_BoxFactory.moveY(-20);
+					m_BoxFactory.moveY(-10);
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::R)
 				{
-					m_BoxFactory.rotate(sf::degrees(45).asRadians());
+					m_BoxFactory.rotate(sf::degrees(15).asRadians());
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
 				{					
@@ -96,22 +91,32 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num1)
 				{
 					m_LevelManager.loadLevel(1);
+					m_Ball.clearTrail();
+					spawnGround();
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num2)
 				{
 					m_LevelManager.loadLevel(2);
+					m_Ball.clearTrail();
+					spawnGround();
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num3)
 				{
 					m_LevelManager.loadLevel(3);
+					m_Ball.clearTrail();
+					spawnGround();
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num4)
 				{
 					m_LevelManager.loadLevel(4);
+					m_Ball.clearTrail();
+					spawnGround();
 				}
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num5)
 				{
 					m_LevelManager.loadLevel(5);
+					m_Ball.clearTrail();
+					spawnGround();
 				}
 			}
 			

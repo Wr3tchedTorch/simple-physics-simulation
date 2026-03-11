@@ -1,6 +1,5 @@
 #pragma once
 #include <id.h>
-#include <vector>
 #include <SFML/System/Vector2.hpp>
 #include <math_functions.h>
 #include <SFML/System/Angle.hpp>
@@ -9,6 +8,7 @@
 #include <memory>
 #include <unordered_map>
 #include <functional>
+#include <box2d.h>
 
 class PhysicsEngine
 {
@@ -49,6 +49,11 @@ public:
 
 	void spawnBodyAtLocation(b2Vec2 location, b2Vec2 size, b2Rot rotation, BodyModel model, b2BodyType type = b2_dynamicBody);
 	void destroyBodyAtLocation(b2Vec2 location);
+	void destroyBodyById(b2BodyId body)
+	{
+		b2DestroyBody(body);
+		m_Bodies.erase(body);
+	}
 
 	void update(float delta);
 

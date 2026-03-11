@@ -12,12 +12,7 @@ void GameEngine::update(float delta)
 
 	b2ContactEvents contactEvents = b2World_GetContactEvents(m_PhysicsEngine->getWorld());
 	for (int i = 0; i < contactEvents.hitCount; ++i)
-	{
-		if (GameEngine::IsEditMode)
-		{
-			break;
-		}
-
+	{		
 		b2ContactHitEvent* hitEvent = contactEvents.hitEvents + i;
 
 		b2ShapeId shapeA = hitEvent->shapeIdA;
@@ -25,6 +20,11 @@ void GameEngine::update(float delta)
 
 		b2BodyId bodyA = b2Shape_GetBody(shapeA);
 		b2BodyId bodyB = b2Shape_GetBody(shapeB);
+
+		if (!b2Body_IsValid(bodyA) || !b2Body_IsValid(bodyB))
+		{
+			return;
+		}
 
 		bool isStaticBodyCollision = b2Body_GetType(bodyA) == b2_staticBody ||
 									 b2Body_GetType(bodyB) == b2_staticBody;
@@ -43,7 +43,7 @@ void GameEngine::update(float delta)
 			model->m_Health -= 3 * hitEvent->approachSpeed;
 			if (model->m_Health <= 0)
 			{
-				b2DestroyBody(box);
+				m_PhysicsEngine->destroyBodyById(box);
 			}
 
 			return;
@@ -59,11 +59,11 @@ void GameEngine::update(float delta)
 
 			if (modelA->m_Health <= 0)
 			{
-				b2DestroyBody(bodyA);
+				m_PhysicsEngine->destroyBodyById(bodyA);
 			}
 			if (modelB->m_Health <= 0)
 			{
-				b2DestroyBody(bodyB);
+				m_PhysicsEngine->destroyBodyById(bodyB);
 			}
 
 			return;
@@ -79,11 +79,14 @@ void GameEngine::update(float delta)
 
 		if (model->m_Type == "box")
 		{
-			m_Ball.applyDamage(model, hitEvent->approachSpeed);
+			if (m_Ball.applyDamage(model, hitEvent->approachSpeed))
+			{
+				m_PhysicsEngine->destroyBodyById(otherBody);
+			}
 		}
 	}
 
-	sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window));
+	sf::Vector2f mousePosition = m_Window.mapPixelToCoords(sf::Mouse::getPosition(m_Window), m_GameView);
 	m_SlingShot.update(mousePosition);
 	m_Ball.update();
 }

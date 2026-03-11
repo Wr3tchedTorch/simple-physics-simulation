@@ -8,6 +8,8 @@
 #include "BoxFactory.h"
 #include "LevelManager.h"
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics/View.hpp>
+#include <SFML/System/Time.hpp>
 
 class GameEngine
 {
@@ -21,6 +23,9 @@ private:
 	BoxFactory m_BoxFactory;
 	LevelManager m_LevelManager;
 
+	sf::View m_GameView;
+	sf::View m_HUDView;
+
 	sf::Keyboard::Scancode m_LastPressedKey;
 
 	void update(float delta);
@@ -28,10 +33,13 @@ private:
 	void draw();
 
 public:
+	static sf::Time GameTimeTotal;
 	static bool IsEditMode;
 	static sf::Vector2f	Resolution;
 
 	GameEngine();
+
+	void spawnGround();
 
 	void run();
 };
