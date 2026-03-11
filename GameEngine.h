@@ -7,6 +7,7 @@
 #include <memory>
 #include "BoxFactory.h"
 #include "BodyModelSerializer.h"
+#include "BodyModelParser.h"
 
 class GameEngine
 {
@@ -19,6 +20,7 @@ private:
 	SlingShot m_SlingShot;
 	BoxFactory m_BoxFactory;
 	BodyModelSerializer m_BodyModelSerializer;
+	BodyModelParser m_BodyModelParser;
 
 	void update(float delta);
 	void input();

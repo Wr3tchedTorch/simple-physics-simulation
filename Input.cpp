@@ -89,14 +89,30 @@ void GameEngine::input()
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::S)
 				{
 					// save current level
-				}
-				else if (keyPressed->scancode == sf::Keyboard::Scancode::L)
-				{
-					// load next level
-				}
+				}				
 				else if (keyPressed->scancode == sf::Keyboard::Scancode::Tab)
 				{
 					m_PhysicsEngine->switchSimulationState();
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num1)
+				{
+					m_BodyModelParser.loadLevel(1);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num2)
+				{
+					m_BodyModelParser.loadLevel(2);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num3)
+				{
+					m_BodyModelParser.loadLevel(3);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num4)
+				{
+					m_BodyModelParser.loadLevel(4);
+				}
+				else if (keyPressed->scancode == sf::Keyboard::Scancode::Num5)
+				{
+					m_BodyModelParser.loadLevel(5);
 				}
 			}
 			
