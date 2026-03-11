@@ -4,7 +4,6 @@
 #include <string>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Rect.hpp>
 
 class HUD

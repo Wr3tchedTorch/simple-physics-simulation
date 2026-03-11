@@ -57,10 +57,11 @@ void HUD::drawGameHUD(sf::RenderTarget& target, sf::View& hudView, std::string c
 	m_TextScore.setString(std::format("Score: {}", GameEngine::Score));
 	m_TextScore.setPosition({
 		hudView.getCenter().x - hudView.getSize().x / 2.0f,
-		m_TextScore.getLocalBounds().size.y + PADDING
+		m_TextScore.getLocalBounds().size.y + PADDING + 40
 		});
 
 	target.draw(m_TitleScreen);
+	target.draw(m_TextScore);
 }
 
 void HUD::drawEditorModeHUD(
